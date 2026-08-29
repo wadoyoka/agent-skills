@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 300" role="img" aria-label="4つのステップが円を描いて繰り返される循環の図">
+  <!-- 循環/フィードバックループ：ぐるぐる回る4ステップ。改善サイクルや反復の型 -->
+  <rect x="0" y="0" width="800" height="300" rx="14" fill="#FBF7EC"/>
+
+  <!-- 円弧の矢印（時計回り・ink。色は箱の wash に任せて線は落ち着かせる） -->
+  <path d="M488 66 Q610 78 636 118" fill="none" stroke="#2B2A26" stroke-width="3" stroke-linecap="round"/>
+  <path d="M635 102 L636 118 L622 111" fill="none" stroke="#2B2A26" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M636 186 Q612 234 488 244" fill="none" stroke="#2B2A26" stroke-width="3" stroke-linecap="round"/>
+  <path d="M503 251 L488 244 L501 235" fill="none" stroke="#2B2A26" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M312 244 Q188 232 164 182" fill="none" stroke="#2B2A26" stroke-width="3" stroke-linecap="round"/>
+  <path d="M163 198 L164 182 L177 191" fill="none" stroke="#2B2A26" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M164 118 Q190 78 312 66" fill="none" stroke="#2B2A26" stroke-width="3" stroke-linecap="round"/>
+  <path d="M299 75 L312 66 L297 59" fill="none" stroke="#2B2A26" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- 中央のラベル -->
+  <text x="400" y="156" text-anchor="middle" font-family="Yusei Magic, sans-serif" font-size="16" fill="#2B2A26">繰り返す</text>
+  <text x="400" y="178" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="12" fill="#EA5A3D">loop</text>
+
+  <!-- 上 -->
+  <rect x="320" y="26" width="160" height="52" rx="10" fill="#DDEAF4" stroke="#2B2A26" stroke-width="2.5" stroke-linejoin="round"/>
+  <text x="400" y="59" text-anchor="middle" font-family="Yusei Magic, sans-serif" font-size="15" fill="#2B2A26">① ステップ</text>
+
+  <!-- 右（主役＝朱の wash ＋ 影） -->
+  <rect x="565" y="130" width="170" height="52" rx="10" fill="#D9CFB6"/>
+  <rect x="560" y="124" width="170" height="52" rx="10" fill="#FBE1D7" stroke="#2B2A26" stroke-width="2.5" stroke-linejoin="round"/>
+  <text x="645" y="157" text-anchor="middle" font-family="Yusei Magic, sans-serif" font-size="15" fill="#2B2A26">② ステップ</text>
+
+  <!-- 下 -->
+  <rect x="320" y="222" width="160" height="52" rx="10" fill="#DEEFD8" stroke="#2B2A26" stroke-width="2.5" stroke-linejoin="round"/>
+  <text x="400" y="255" text-anchor="middle" font-family="Yusei Magic, sans-serif" font-size="15" fill="#2B2A26">③ ステップ</text>
+
+  <!-- 左 -->
+  <rect x="70" y="124" width="170" height="52" rx="10" fill="#FFFDF7" stroke="#2B2A26" stroke-width="2.5" stroke-linejoin="round"/>
+  <text x="155" y="157" text-anchor="middle" font-family="Yusei Magic, sans-serif" font-size="15" fill="#2B2A26">④ ステップ</text>
+</svg>

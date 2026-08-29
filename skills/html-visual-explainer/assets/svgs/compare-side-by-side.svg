@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 180" role="img" aria-label="悪い例と良い例を左右に並べて比べる図">
+  <!-- 並列比較：左＝ダメな例（ink破線＋赤ラベル）／右＝良い例（緑wash）。同じ入力で結果が違うのを対比する型 -->
+  <rect x="0" y="0" width="800" height="180" rx="14" fill="#FBF7EC"/>
+
+  <!-- 左：ダメな例 -->
+  <rect x="30" y="40" width="350" height="110" rx="12" fill="#FFFDF7" stroke="#2B2A26" stroke-width="2.5" stroke-dasharray="9 7" stroke-linejoin="round"/>
+  <text x="50" y="31" font-family="Yusei Magic, sans-serif" font-size="13.5" fill="#C64444">× ダメな例 / Before</text>
+  <text x="205" y="84" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="14" fill="#2B2A26">同じ入力</text>
+  <text x="205" y="116" text-anchor="middle" font-family="Yusei Magic, sans-serif" font-size="15" fill="#2B2A26">→ 期待どおりにならない</text>
+  <text x="205" y="140" text-anchor="middle" font-family="Zen Kurenaido, sans-serif" font-size="12.5" fill="#C64444">なぜ失敗するのか</text>
+
+  <!-- 右：良い例（主役） -->
+  <rect x="425" y="46" width="350" height="110" rx="12" fill="#D9CFB6"/>
+  <rect x="420" y="40" width="350" height="110" rx="12" fill="#DEEFD8" stroke="#2B2A26" stroke-width="2.5" stroke-linejoin="round"/>
+  <text x="440" y="31" font-family="Yusei Magic, sans-serif" font-size="13.5" fill="#4E9A51">✓ 良い例 / After</text>
+  <text x="595" y="84" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="14" fill="#2B2A26">同じ入力</text>
+  <text x="595" y="116" text-anchor="middle" font-family="Yusei Magic, sans-serif" font-size="15" fill="#2B2A26">→ 期待どおりになる</text>
+  <text x="595" y="140" text-anchor="middle" font-family="Zen Kurenaido, sans-serif" font-size="12.5" fill="#4E9A51">なぜうまくいくのか</text>
+</svg>

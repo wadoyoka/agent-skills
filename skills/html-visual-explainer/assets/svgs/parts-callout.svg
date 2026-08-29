@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 250" role="img" aria-label="中央の対象から、各部位に引き出し線で注釈を付けた図">
+  <!-- 部位注釈：1つの対象の各パーツに引き出し線でラベルを付ける。構造の解剖の型 -->
+  <rect x="0" y="0" width="800" height="250" rx="14" fill="#FBF7EC"/>
+
+  <!-- 引き出し線（注釈の箱まで届かせる） -->
+  <path d="M330 90 L210 48" fill="none" stroke="#2B2A26" stroke-width="2" stroke-linecap="round"/>
+  <path d="M330 160 L210 204" fill="none" stroke="#2B2A26" stroke-width="2" stroke-linecap="round"/>
+  <path d="M470 90 L590 48" fill="none" stroke="#2B2A26" stroke-width="2" stroke-linecap="round"/>
+  <path d="M470 160 L590 204" fill="none" stroke="#2B2A26" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- 中央の対象（主役＝朱の wash ＋ 影） -->
+  <rect x="315" y="86" width="180" height="90" rx="14" fill="#D9CFB6"/>
+  <rect x="310" y="80" width="180" height="90" rx="14" fill="#FBE1D7" stroke="#2B2A26" stroke-width="3" stroke-linejoin="round"/>
+  <text x="400" y="123" text-anchor="middle" font-family="Yusei Magic, sans-serif" font-size="16" fill="#2B2A26">説明したい</text>
+  <text x="400" y="148" text-anchor="middle" font-family="Yusei Magic, sans-serif" font-size="16" fill="#2B2A26">対象</text>
+
+  <!-- 接続点 -->
+  <circle cx="330" cy="90" r="5" fill="#2E7DB5" stroke="#2B2A26" stroke-width="2"/>
+  <circle cx="330" cy="160" r="5" fill="#2E7DB5" stroke="#2B2A26" stroke-width="2"/>
+  <circle cx="470" cy="90" r="5" fill="#2E7DB5" stroke="#2B2A26" stroke-width="2"/>
+  <circle cx="470" cy="160" r="5" fill="#2E7DB5" stroke="#2B2A26" stroke-width="2"/>
+
+  <!-- 左上の注釈 -->
+  <rect x="40" y="28" width="170" height="40" rx="8" fill="#DDEAF4" stroke="#2B2A26" stroke-width="2" stroke-linejoin="round"/>
+  <text x="125" y="53" text-anchor="middle" font-family="Zen Kurenaido, sans-serif" font-size="13" fill="#2B2A26">部位① の説明</text>
+
+  <!-- 左下の注釈 -->
+  <rect x="40" y="184" width="170" height="40" rx="8" fill="#DDEAF4" stroke="#2B2A26" stroke-width="2" stroke-linejoin="round"/>
+  <text x="125" y="209" text-anchor="middle" font-family="Zen Kurenaido, sans-serif" font-size="13" fill="#2B2A26">部位② の説明</text>
+
+  <!-- 右上の注釈 -->
+  <rect x="590" y="28" width="170" height="40" rx="8" fill="#DDEAF4" stroke="#2B2A26" stroke-width="2" stroke-linejoin="round"/>
+  <text x="675" y="53" text-anchor="middle" font-family="Zen Kurenaido, sans-serif" font-size="13" fill="#2B2A26">部位③ の説明</text>
+
+  <!-- 右下の注釈 -->
+  <rect x="590" y="184" width="170" height="40" rx="8" fill="#DDEAF4" stroke="#2B2A26" stroke-width="2" stroke-linejoin="round"/>
+  <text x="675" y="209" text-anchor="middle" font-family="Zen Kurenaido, sans-serif" font-size="13" fill="#2B2A26">部位④ の説明</text>
+</svg>

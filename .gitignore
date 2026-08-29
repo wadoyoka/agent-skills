@@ -1,0 +1,8 @@
+.DS_Store
+*.bak.*
+
+# 開発時の作業ログ（SDD ワークフローの成果物）
+.superpowers/
+
+# スキルが生成する出力
+docs/

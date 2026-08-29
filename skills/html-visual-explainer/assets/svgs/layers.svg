@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 240" role="img" aria-label="下から上へ積み上がった4つの層の図">
+  <!-- 階層/レイヤー：土台の上に積み上がる構造。下ほど基礎、上ほど応用 の型 -->
+  <rect x="0" y="0" width="800" height="240" rx="14" fill="#FBF7EC"/>
+
+  <!-- 上の層（応用・使う人に近い） -->
+  <rect x="150" y="34" width="500" height="42" rx="10" fill="#DDEAF4" stroke="#2B2A26" stroke-width="2.5" stroke-linejoin="round"/>
+  <text x="400" y="62" text-anchor="middle" font-family="Yusei Magic, sans-serif" font-size="15" fill="#2B2A26">第4層：一番外側（使う人に近い）</text>
+
+  <!-- 主役の層（朱の wash ＋ 影） -->
+  <rect x="155" y="90" width="500" height="42" rx="10" fill="#D9CFB6"/>
+  <rect x="150" y="84" width="500" height="42" rx="10" fill="#FBE1D7" stroke="#2B2A26" stroke-width="2.5" stroke-linejoin="round"/>
+  <text x="400" y="112" text-anchor="middle" font-family="Yusei Magic, sans-serif" font-size="15" fill="#2B2A26">第3層：主役の層</text>
+
+  <rect x="150" y="134" width="500" height="42" rx="10" fill="#FFFDF7" stroke="#2B2A26" stroke-width="2.5" stroke-linejoin="round"/>
+  <text x="400" y="162" text-anchor="middle" font-family="Yusei Magic, sans-serif" font-size="15" fill="#2B2A26">第2層：中間</text>
+
+  <!-- 土台（基礎） -->
+  <rect x="150" y="184" width="500" height="42" rx="10" fill="#DEEFD8" stroke="#2B2A26" stroke-width="2.5" stroke-linejoin="round"/>
+  <text x="400" y="212" text-anchor="middle" font-family="Yusei Magic, sans-serif" font-size="15" fill="#2B2A26">第1層：土台（基礎）</text>
+
+  <!-- 上下の向き -->
+  <text x="102" y="50" text-anchor="middle" font-family="Zen Kurenaido, sans-serif" font-size="13" fill="#2B2A26">応用</text>
+  <text x="102" y="214" text-anchor="middle" font-family="Zen Kurenaido, sans-serif" font-size="13" fill="#2B2A26">基礎</text>
+  <path d="M102 194 L102 66" fill="none" stroke="#2B2A26" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M95 77 L102 64 L109 77" fill="none" stroke="#2B2A26" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

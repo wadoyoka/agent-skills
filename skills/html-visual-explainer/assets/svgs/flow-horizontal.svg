@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="veHoriz" viewBox="0 0 800 210" role="img" aria-label="左から右へ、箱を矢印でつないだ横方向の流れの図">
+  <style>
+    @keyframes veHorizDash{to{stroke-dashoffset:-180}}
+    #veHoriz .flow{animation:veHorizDash 3.5s linear infinite}
+    @media (prefers-reduced-motion:reduce){#veHoriz .flow{animation:none}}
+  </style>
+  <!-- 横のフロー：A → （変換）→ B → C。中央に「翻訳/変換」役を朱で置く型 -->
+  <rect x="0" y="0" width="800" height="210" rx="14" fill="#FBF7EC"/>
+
+  <!-- 始点 -->
+  <rect x="24" y="72" width="150" height="64" rx="12" fill="#FFFDF7" stroke="#2B2A26" stroke-width="2.5" stroke-linejoin="round"/>
+  <text x="99" y="102" text-anchor="middle" font-family="Yusei Magic, sans-serif" font-size="15" fill="#2B2A26">入口</text>
+  <text x="99" y="123" text-anchor="middle" font-family="Zen Kurenaido, sans-serif" font-size="12.5" fill="#2B2A26">元の形</text>
+
+  <path d="M177 104 L213 104" fill="none" stroke="#2B2A26" stroke-width="3" stroke-linecap="round"/>
+  <path class="flow" d="M177 104 L213 104" fill="none" stroke="#EA5A3D" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="8 10"/>
+  <path d="M204 97 L215 104 L204 111" fill="none" stroke="#2B2A26" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- 中央：変換役（主役＝朱の wash ＋ 影） -->
+  <rect x="225" y="72" width="180" height="76" rx="12" fill="#D9CFB6"/>
+  <rect x="220" y="66" width="180" height="76" rx="12" fill="#FBE1D7" stroke="#2B2A26" stroke-width="2.5" stroke-linejoin="round"/>
+  <text x="310" y="96" text-anchor="middle" font-family="Yusei Magic, sans-serif" font-size="15" fill="#2B2A26">変換役</text>
+  <text x="310" y="117" text-anchor="middle" font-family="Zen Kurenaido, sans-serif" font-size="12.5" fill="#EA5A3D">形を作り変える</text>
+  <text x="310" y="135" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11.5" fill="#2B2A26">ここが肝</text>
+
+  <path d="M409 104 L439 104" fill="none" stroke="#2B2A26" stroke-width="3" stroke-linecap="round"/>
+  <path class="flow" d="M409 104 L439 104" fill="none" stroke="#EA5A3D" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="8 10"/>
+  <path d="M432 97 L443 104 L432 111" fill="none" stroke="#2B2A26" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- 受け手 -->
+  <rect x="446" y="66" width="170" height="76" rx="12" fill="#DDEAF4" stroke="#2B2A26" stroke-width="2.5" stroke-linejoin="round"/>
+  <text x="531" y="100" text-anchor="middle" font-family="Yusei Magic, sans-serif" font-size="15" fill="#2B2A26">受け手</text>
+  <text x="531" y="122" text-anchor="middle" font-family="Zen Kurenaido, sans-serif" font-size="12.5" fill="#2B2A26">整った形を扱う</text>
+
+  <path d="M619 104 L655 104" fill="none" stroke="#2B2A26" stroke-width="3" stroke-linecap="round"/>
+  <path class="flow" d="M619 104 L655 104" fill="none" stroke="#EA5A3D" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="8 10"/>
+  <path d="M648 97 L659 104 L648 111" fill="none" stroke="#2B2A26" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- 終点 -->
+  <rect x="662" y="72" width="114" height="64" rx="12" fill="#DEEFD8" stroke="#2B2A26" stroke-width="2.5" stroke-linejoin="round"/>
+  <text x="719" y="102" text-anchor="middle" font-family="Yusei Magic, sans-serif" font-size="14" fill="#2B2A26">出口 ✓</text>
+  <text x="719" y="123" text-anchor="middle" font-family="Zen Kurenaido, sans-serif" font-size="12.5" fill="#4E9A51">結果</text>
+
+  <text x="400" y="188" text-anchor="middle" font-family="Zen Kurenaido, sans-serif" font-size="13.5" fill="#2B2A26">流れの一番言いたいことを1行で</text>
+</svg>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SVG部品カタログ ― html-visual-explainer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Yusei+Magic&family=Zen+Kurenaido&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#2B2A26;--paper:#FBF7EC;--card:#FFFDF7;--shadow:#D9CFB6;
+    --blue:#2E7DB5;--coral:#EA5A3D;--green:#4E9A51;--crimson:#C64444;--sun:#FFC93C;
+    --wash-blue:#DDEAF4;--wash-coral:#FBE1D7;--wash-green:#DEEFD8;--wash-sun:#FFF0C2;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:"Zen Kurenaido",system-ui,sans-serif;font-size:15px;line-height:1.9;
+    /* 方眼紙 */
+    background-image:linear-gradient(var(--shadow) 1px, transparent 1px),linear-gradient(90deg, var(--shadow) 1px, transparent 1px);
+    background-size:28px 28px;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:0 22px;}
+  header{padding:56px 0 20px;}
+  .eyebrow{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.2em;color:var(--blue);font-weight:600;margin:0 0 12px;}
+  h1{font-family:"Yusei Magic",sans-serif;font-weight:400;font-size:clamp(26px,5vw,40px);margin:0 0 16px;transform:rotate(-1deg);}
+  h1 .accent{background:linear-gradient(transparent 62%, var(--wash-sun) 62%);padding:0 4px;}
+  .lede{max-width:760px;margin:0 0 8px;}
+  .term{font-family:"JetBrains Mono",monospace;font-size:.86em;background:var(--card);border:1.5px solid var(--ink);padding:1px 7px;border-radius:9px 3px 8px 3px;}
+
+  /* 色の凡例（マーカー on 方眼紙） */
+  .legend{
+    display:flex;flex-wrap:wrap;gap:8px 20px;margin:24px 0 8px;padding:16px 20px;
+    background:var(--card);border:2.5px solid var(--ink);
+    border-radius:255px 14px 235px 14px/14px 245px 15px 255px;
+    box-shadow:6px 7px 0 -1px var(--shadow);font-size:14px;
+  }
+  .legend b{font-family:"Yusei Magic",sans-serif;font-weight:400;width:100%;margin:0;}
+  .legend span{display:inline-flex;align-items:center;gap:8px;}
+  .legend i{width:22px;height:12px;display:block;border:2px solid var(--ink);border-radius:6px 2px 5px 2px;}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:26px;margin:30px 0 60px;}
+  .cardx{
+    background:var(--card);border:2.5px solid var(--ink);padding:16px 16px 18px;
+    border-radius:255px 14px 235px 14px/14px 245px 15px 255px;
+    box-shadow:6px 7px 0 -1px var(--shadow);display:flex;flex-direction:column;
+  }
+  .cardx:nth-child(even){border-radius:14px 245px 14px 255px/235px 14px 255px 15px;}
+  .cardx .name{font-family:"JetBrains Mono",monospace;font-size:13.5px;color:var(--coral);font-weight:600;margin:0 0 2px;}
+  .badge{
+    display:inline-block;margin-left:6px;font-family:"JetBrains Mono",monospace;font-size:10.5px;
+    color:var(--ink);border:2px solid var(--ink);background:var(--wash-sun);
+    border-radius:9px 3px 8px 3px;padding:0 8px;vertical-align:middle;font-weight:600;
+  }
+  .cardx .use{font-size:14px;margin:0 0 14px;min-height:52px;line-height:1.75;}
+  .frame{border:2px dashed var(--ink);border-radius:12px;background:var(--paper);padding:8px;margin-top:auto;}
+  .frame img{width:100%;height:auto;display:block;}
+  .note{
+    margin:8px 0 0;padding:14px 18px;background:var(--wash-sun);border:2.5px solid var(--ink);
+    border-radius:14px 245px 14px 255px/235px 14px 255px 15px;box-shadow:6px 7px 0 -1px var(--shadow);
+    font-size:14px;
+  }
+  footer{margin:40px 0 60px;padding-top:20px;border-top:3px dashed var(--ink);font-size:13px;font-family:"JetBrains Mono",monospace;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="eyebrow">html-visual-explainer / assets / svgs</p>
+    <h1>SVG部品カタログ<span class="accent">（グラレコ）</span></h1>
+    <p class="lede">
+      解説HTMLの図解に使える、再利用可能なSVGの土台集です。<b>すべてグラレコ（手描き板書風）で描かれている</b>ので、
+      目的に近い部品を選び、同フォルダの <span class="term">.svg</span> を開いて
+      <span class="term">&lt;svg&gt;</span> タグごとコピーし、ラベルと色をトピックに合わせて書き換えるだけで使えます。
+      流れの破線（<span class="term">class="flow"</span>）を含む図はSVG自身がアニメーションを内蔵しているので、
+      この一覧でもそのまま動きます（<span class="term">▶ 動く</span> のバッジ付き。<span class="term">prefers-reduced-motion</span> では自動で止まります）。
+    </p>
+    <div class="legend">
+      <b>色は飾りではなく意味。枠は必ず ink、塗りは cream / wash、意味は線とラベルに載せる。</b>
+      <span><i style="background:#2B2A26"></i>ink 黒：すべての枠線</span>
+      <span><i style="background:#2E7DB5"></i>青：構造・つなぎ</span>
+      <span><i style="background:#EA5A3D"></i>朱：主役・走る線</span>
+      <span><i style="background:#4E9A51"></i>緑：正しい・ゴール ✓</span>
+      <span><i style="background:#C64444"></i>赤：危険・注意 ×</span>
+      <span><i style="background:#FFC93C"></i>黄：ハイライト</span>
+    </div>
+    <p class="note">
+      各図には<b>影つきの箱が1つだけ</b>あります＝その図の主役。破線の枠は「まだ整っていない／避けたい状態」の合図です。
+      この2つの約束を守ると、記事全体で図の“文法”が揃います。
+    </p>
+  </header>
+
+  <div class="grid">
+    <div class="cardx">
+      <p class="name">hero-concept.svg <span class="badge">▶ 動く</span></p>
+      <p class="use">ヒーロー／導入。主役が問題を解決する様子を1枚で。記事冒頭の「つかみ」に。</p>
+      <div class="frame"><img src="hero-concept.svg" alt="hero-concept"></div>
+    </div>
+    <div class="cardx">
+      <p class="name">flow-pipeline.svg <span class="badge">▶ 動く</span></p>
+      <p class="use">縦の流れ。データや処理が複数の担当を上から下へ順に通る「全体像」に。</p>
+      <div class="frame"><img src="flow-pipeline.svg" alt="flow-pipeline"></div>
+    </div>
+    <div class="cardx">
+      <p class="name">flow-horizontal.svg <span class="badge">▶ 動く</span></p>
+      <p class="use">横の流れ。A→変換→B の経路や、翻訳・橋渡し役を示すのに。</p>
+      <div class="frame"><img src="flow-horizontal.svg" alt="flow-horizontal"></div>
+    </div>
+    <div class="cardx">
+      <p class="name">transform-before-after.svg</p>
+      <p class="use">変換の前後。「入れた物がこう変わって返る」1つの操作の説明に。</p>
+      <div class="frame"><img src="transform-before-after.svg" alt="transform-before-after"></div>
+    </div>
+    <div class="cardx">
+      <p class="name">mapping.svg</p>
+      <p class="use">対応づけ。「A は B、C は D」の対応表・置き換え表に。</p>
+      <div class="frame"><img src="mapping.svg" alt="mapping"></div>
+    </div>
+    <div class="cardx">
+      <p class="name">two-paths.svg</p>
+      <p class="use">分岐。1つの入口が2つの道に分かれ、結末が違う「選択」の説明に。</p>
+      <div class="frame"><img src="two-paths.svg" alt="two-paths"></div>
+    </div>
+    <div class="cardx">
+      <p class="name">compare-side-by-side.svg</p>
+      <p class="use">並列比較。ダメな例と良い例を、同じ入力で左右に対比するのに。</p>
+      <div class="frame"><img src="compare-side-by-side.svg" alt="compare-side-by-side"></div>
+    </div>
+    <div class="cardx">
+      <p class="name">stack-blocks.svg <span class="badge">▶ 動く</span></p>
+      <p class="use">積み重ね。確定した部分は再利用し、末尾だけが更新される仕組みに。</p>
+      <div class="frame"><img src="stack-blocks.svg" alt="stack-blocks"></div>
+    </div>
+    <div class="cardx">
+      <p class="name">layers.svg</p>
+      <p class="use">階層／レイヤー。土台の上に積み上がる構造、抽象度の層に。</p>
+      <div class="frame"><img src="layers.svg" alt="layers"></div>
+    </div>
+    <div class="cardx">
+      <p class="name">cycle.svg</p>
+      <p class="use">循環。改善サイクルや、ぐるぐる反復するプロセスに。</p>
+      <div class="frame"><img src="cycle.svg" alt="cycle"></div>
+    </div>
+    <div class="cardx">
+      <p class="name">tree.svg</p>
+      <p class="use">ツリー／分類。全体を枝分かれで分解、カテゴリ構成に。</p>
+      <div class="frame"><img src="tree.svg" alt="tree"></div>
+    </div>
+    <div class="cardx">
+      <p class="name">timeline.svg <span class="badge">▶ 動く</span></p>
+      <p class="use">時系列／手順。歴史・工程・順番を左から右へ。</p>
+      <div class="frame"><img src="timeline.svg" alt="timeline"></div>
+    </div>
+    <div class="cardx">
+      <p class="name">matrix-2x2.svg</p>
+      <p class="use">2×2マトリクス。2つの軸で4象限に整理（優先度・戦略・分類）に。</p>
+      <div class="frame"><img src="matrix-2x2.svg" alt="matrix-2x2"></div>
+    </div>
+    <div class="cardx">
+      <p class="name">parts-callout.svg</p>
+      <p class="use">部位注釈。1つの対象の各パーツに引き出し線で解説を付けるのに。</p>
+      <div class="frame"><img src="parts-callout.svg" alt="parts-callout"></div>
+    </div>
+  </div>
+
+  <footer>
+    html-visual-explainer ／ SVG部品カタログ ― viewBox・配色・role/aria の作法は references/svg-guide.md を参照<br>
+    ※ この一覧は img 経由で読み込むため、SVG 内の手書きフォント指定は反映されません（記事に貼るとテンプレ側の Google Fonts が効きます）
+  </footer>
+</div>
+</body>
+</html>

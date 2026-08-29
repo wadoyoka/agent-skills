@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="veStack" viewBox="0 0 800 210" role="img" aria-label="積み重なったブロックのうち、最後の1つだけが更新される図">
+  <style>
+    @keyframes veStackDash{to{stroke-dashoffset:-180}}
+    #veStack .flow{animation:veStackDash 3.6s linear infinite}
+    @media (prefers-reduced-motion:reduce){#veStack .flow{animation:none}}
+  </style>
+  <!-- 積み重ね：確定した要素は再利用し、末尾の1つだけが更新される、を見せる型 -->
+  <rect x="0" y="0" width="800" height="210" rx="14" fill="#FBF7EC"/>
+  <text x="400" y="28" text-anchor="middle" font-family="Yusei Magic, sans-serif" font-size="15" fill="#2B2A26">全体 ＝ ブロックの積み重ね</text>
+
+  <!-- 確定ブロック（cream・再利用） -->
+  <rect x="180" y="44" width="440" height="30" rx="7" fill="#FFFDF7" stroke="#2B2A26" stroke-width="2" stroke-linejoin="round"/>
+  <text x="200" y="65" font-family="Zen Kurenaido, sans-serif" font-size="13" fill="#2B2A26">確定したブロック 1</text>
+  <text x="600" y="65" text-anchor="end" font-family="Zen Kurenaido, sans-serif" font-size="12" fill="#4E9A51">再利用 ✓</text>
+
+  <rect x="180" y="80" width="440" height="30" rx="7" fill="#FFFDF7" stroke="#2B2A26" stroke-width="2" stroke-linejoin="round"/>
+  <text x="200" y="101" font-family="Zen Kurenaido, sans-serif" font-size="13" fill="#2B2A26">確定したブロック 2</text>
+  <text x="600" y="101" text-anchor="end" font-family="Zen Kurenaido, sans-serif" font-size="12" fill="#4E9A51">再利用 ✓</text>
+
+  <rect x="180" y="116" width="440" height="30" rx="7" fill="#FFFDF7" stroke="#2B2A26" stroke-width="2" stroke-linejoin="round"/>
+  <text x="200" y="137" font-family="Zen Kurenaido, sans-serif" font-size="13" fill="#2B2A26">確定したブロック 3</text>
+  <text x="600" y="137" text-anchor="end" font-family="Zen Kurenaido, sans-serif" font-size="12" fill="#4E9A51">再利用 ✓</text>
+
+  <!-- 末尾（主役＝朱の wash ＋ 影・更新中） -->
+  <rect x="185" y="158" width="440" height="34" rx="7" fill="#D9CFB6"/>
+  <rect x="180" y="152" width="440" height="34" rx="7" fill="#FBE1D7" stroke="#2B2A26" stroke-width="2.5" stroke-linejoin="round"/>
+  <text x="200" y="175" font-family="Yusei Magic, sans-serif" font-size="13.5" fill="#EA5A3D">最後のブロック（更新中）</text>
+  <text x="600" y="175" text-anchor="end" font-family="Zen Kurenaido, sans-serif" font-size="12" fill="#EA5A3D">ここだけ動く</text>
+
+  <!-- 流れ込む入力 -->
+  <path d="M116 169 L170 169" fill="none" stroke="#2B2A26" stroke-width="3" stroke-linecap="round"/>
+  <path class="flow" d="M116 169 L170 169" fill="none" stroke="#EA5A3D" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="8 10"/>
+  <path d="M163 162 L174 169 L163 176" fill="none" stroke="#2B2A26" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="80" y="174" text-anchor="middle" font-family="Yusei Magic, sans-serif" font-size="12.5" fill="#EA5A3D">入力</text>
+</svg>

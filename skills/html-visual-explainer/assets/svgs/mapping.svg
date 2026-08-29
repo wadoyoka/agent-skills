@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 190" role="img" aria-label="左の項目を右の項目へ対応づける表の図">
+  <!-- 対応づけ：左（元の要素）→ 右（対応先）。「AはB、CはD」の対応表を見せる型 -->
+  <rect x="0" y="0" width="800" height="190" rx="14" fill="#FBF7EC"/>
+
+  <text x="150" y="34" text-anchor="middle" font-family="Yusei Magic, sans-serif" font-size="14" fill="#2B2A26">元の項目</text>
+  <text x="650" y="34" text-anchor="middle" font-family="Yusei Magic, sans-serif" font-size="14" fill="#2E7DB5">対応先</text>
+
+  <!-- row 1 -->
+  <rect x="40" y="48" width="220" height="34" rx="8" fill="#FFFDF7" stroke="#2B2A26" stroke-width="2" stroke-linejoin="round"/>
+  <text x="60" y="71" font-family="JetBrains Mono, monospace" font-size="14" fill="#2B2A26">項目 A</text>
+  <path d="M272 65 L532 65" fill="none" stroke="#2E7DB5" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M524 58 L536 65 L524 72" fill="none" stroke="#2E7DB5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="546" y="48" width="214" height="34" rx="8" fill="#DDEAF4" stroke="#2B2A26" stroke-width="2" stroke-linejoin="round"/>
+  <text x="566" y="71" font-family="JetBrains Mono, monospace" font-size="14" fill="#2B2A26">対応先 A</text>
+
+  <!-- row 2 -->
+  <rect x="40" y="96" width="220" height="34" rx="8" fill="#FFFDF7" stroke="#2B2A26" stroke-width="2" stroke-linejoin="round"/>
+  <text x="60" y="119" font-family="JetBrains Mono, monospace" font-size="14" fill="#2B2A26">項目 B</text>
+  <path d="M272 113 L532 113" fill="none" stroke="#2E7DB5" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M524 106 L536 113 L524 120" fill="none" stroke="#2E7DB5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="546" y="96" width="214" height="34" rx="8" fill="#DDEAF4" stroke="#2B2A26" stroke-width="2" stroke-linejoin="round"/>
+  <text x="566" y="119" font-family="JetBrains Mono, monospace" font-size="14" fill="#2B2A26">対応先 B</text>
+
+  <!-- row 3（特別扱いの行だけ朱に変える＝主役） -->
+  <rect x="40" y="144" width="220" height="34" rx="8" fill="#FFFDF7" stroke="#2B2A26" stroke-width="2" stroke-linejoin="round"/>
+  <text x="60" y="167" font-family="JetBrains Mono, monospace" font-size="14" fill="#2B2A26">項目 C</text>
+  <path d="M272 161 L532 161" fill="none" stroke="#EA5A3D" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M524 154 L536 161 L524 168" fill="none" stroke="#EA5A3D" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="551" y="150" width="214" height="34" rx="8" fill="#D9CFB6"/>
+  <rect x="546" y="144" width="214" height="34" rx="8" fill="#FBE1D7" stroke="#2B2A26" stroke-width="2.5" stroke-linejoin="round"/>
+  <text x="566" y="167" font-family="JetBrains Mono, monospace" font-size="14" fill="#EA5A3D">対応先 C（特別）</text>
+</svg>

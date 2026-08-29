@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="vePipe" viewBox="0 0 800 300" role="img" aria-label="4つのステップを上から下へ順に通っていく流れの図">
+  <style>
+    @keyframes vePipeDash{to{stroke-dashoffset:-180}}
+    #vePipe .flow{animation:vePipeDash 4.5s linear infinite}
+    @media (prefers-reduced-motion:reduce){#vePipe .flow{animation:none}}
+  </style>
+  <!-- 縦のパイプライン：ものが上から下へ、担当を順に通る。ステップ数は増減してよい -->
+  <rect x="0" y="0" width="800" height="300" rx="14" fill="#FBF7EC"/>
+
+  <!-- ink の主線と、その上を流れる朱の破線（class="flow" で動く） -->
+  <path d="M110 60 L110 270" fill="none" stroke="#2B2A26" stroke-width="3.5" stroke-linecap="round"/>
+  <path class="flow" d="M110 60 L110 270" fill="none" stroke="#EA5A3D" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="8 10"/>
+
+  <!-- ① -->
+  <circle cx="110" cy="60" r="9" fill="#2E7DB5" stroke="#2B2A26" stroke-width="2"/>
+  <rect x="150" y="34" width="600" height="52" rx="11" fill="#DDEAF4" stroke="#2B2A26" stroke-width="2.5" stroke-linejoin="round"/>
+  <text x="172" y="59" font-family="Yusei Magic, sans-serif" font-size="16" fill="#2B2A26">① 最初のステップ</text>
+  <text x="172" y="78" font-family="Zen Kurenaido, sans-serif" font-size="13" fill="#2B2A26">ここで何が起きるかを一言で</text>
+
+  <!-- ②（主役は朱の wash ＋ 影で目立たせる） -->
+  <circle cx="110" cy="130" r="9" fill="#EA5A3D" stroke="#2B2A26" stroke-width="2"/>
+  <rect x="155" y="110" width="600" height="52" rx="11" fill="#D9CFB6"/>
+  <rect x="150" y="104" width="600" height="52" rx="11" fill="#FBE1D7" stroke="#2B2A26" stroke-width="2.5" stroke-linejoin="round"/>
+  <text x="172" y="129" font-family="Yusei Magic, sans-serif" font-size="16" fill="#2B2A26">② 主役のステップ</text>
+  <text x="172" y="148" font-family="Zen Kurenaido, sans-serif" font-size="13" fill="#EA5A3D">一番大事な担当。朱で強調する</text>
+
+  <!-- ③ -->
+  <circle cx="110" cy="200" r="9" fill="#2E7DB5" stroke="#2B2A26" stroke-width="2"/>
+  <rect x="150" y="174" width="600" height="52" rx="11" fill="#DDEAF4" stroke="#2B2A26" stroke-width="2.5" stroke-linejoin="round"/>
+  <text x="172" y="199" font-family="Yusei Magic, sans-serif" font-size="16" fill="#2B2A26">③ 次のステップ</text>
+  <text x="172" y="218" font-family="Zen Kurenaido, sans-serif" font-size="13" fill="#2B2A26">担当が違う＝場所が違う、を意識させる</text>
+
+  <!-- ④（最終・ゴールは緑） -->
+  <circle cx="110" cy="270" r="9" fill="#4E9A51" stroke="#2B2A26" stroke-width="2"/>
+  <rect x="150" y="244" width="600" height="44" rx="11" fill="#DEEFD8" stroke="#2B2A26" stroke-width="2.5" stroke-linejoin="round"/>
+  <text x="172" y="273" font-family="Yusei Magic, sans-serif" font-size="16" fill="#2B2A26">④ 最終結果（ゴール）✓</text>
+</svg>

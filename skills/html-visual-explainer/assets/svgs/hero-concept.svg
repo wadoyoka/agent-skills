@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="veHero" viewBox="0 0 800 260" role="img" aria-label="問題のある状態が、中央の主役によって解決された状態に変わる図">
+  <style>
+    @keyframes veHeroDash{to{stroke-dashoffset:-180}}
+    #veHero .flow{animation:veHeroDash 4.2s linear infinite}
+    @media (prefers-reduced-motion:reduce){#veHero .flow{animation:none}}
+  </style>
+  <!-- HERO用：主役の比喩を1枚で。左＝問題（ink破線）、中央＝主役の働き（朱）、右＝解決（緑wash） -->
+  <rect x="0" y="0" width="800" height="260" rx="14" fill="#FBF7EC"/>
+
+  <!-- 左：問題のある状態 -->
+  <text x="150" y="46" text-anchor="middle" font-family="Yusei Magic, sans-serif" font-size="15" fill="#C64444">変更前 ⚠ 問題のある状態</text>
+  <rect x="40" y="66" width="220" height="120" rx="12" fill="#FFFDF7" stroke="#2B2A26" stroke-width="2.5" stroke-dasharray="9 7" stroke-linejoin="round"/>
+  <text x="150" y="120" text-anchor="middle" font-family="Yusei Magic, sans-serif" font-size="17" fill="#2B2A26">Before の状態</text>
+  <text x="150" y="152" text-anchor="middle" font-family="Zen Kurenaido, sans-serif" font-size="13" fill="#C64444">何がうまくいっていないか</text>
+
+  <!-- 中央：主役の働き（ink の主線 ＋ 朱の走る破線） -->
+  <path d="M275 126 L516 126" fill="none" stroke="#2B2A26" stroke-width="3" stroke-linecap="round"/>
+  <path class="flow" d="M275 126 L516 126" fill="none" stroke="#EA5A3D" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="8 10"/>
+  <path d="M505 118 L517 126 L505 134" fill="none" stroke="#2B2A26" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="397" cy="126" r="30" fill="#EA5A3D" stroke="#2B2A26" stroke-width="2.5"/>
+  <text x="397" y="122" text-anchor="middle" font-family="Yusei Magic, sans-serif" font-size="14" fill="#FFFDF7">主役</text>
+  <text x="397" y="141" text-anchor="middle" font-family="Yusei Magic, sans-serif" font-size="12" fill="#FFFDF7">働き</text>
+
+  <!-- 右：解決した状態 -->
+  <text x="650" y="46" text-anchor="middle" font-family="Yusei Magic, sans-serif" font-size="15" fill="#4E9A51">変更後 ✓ 解決した状態</text>
+  <rect x="545" y="72" width="220" height="120" rx="12" fill="#D9CFB6"/>
+  <rect x="540" y="66" width="220" height="120" rx="12" fill="#DEEFD8" stroke="#2B2A26" stroke-width="2.5" stroke-linejoin="round"/>
+  <text x="650" y="120" text-anchor="middle" font-family="Yusei Magic, sans-serif" font-size="17" fill="#2B2A26">After の状態</text>
+  <text x="650" y="152" text-anchor="middle" font-family="Zen Kurenaido, sans-serif" font-size="13" fill="#4E9A51">どう良くなったか</text>
+</svg>

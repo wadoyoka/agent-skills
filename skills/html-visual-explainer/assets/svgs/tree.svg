@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 240" role="img" aria-label="1つの親から子・孫へ枝分かれする階層ツリーの図">
+  <!-- ツリー/分類：全体を枝分かれで分解する。カテゴリ分けや構成要素の型 -->
+  <rect x="0" y="0" width="800" height="240" rx="14" fill="#FBF7EC"/>
+
+  <!-- 親（主役＝朱の wash ＋ 影） -->
+  <rect x="325" y="30" width="160" height="44" rx="10" fill="#D9CFB6"/>
+  <rect x="320" y="24" width="160" height="44" rx="10" fill="#FBE1D7" stroke="#2B2A26" stroke-width="2.5" stroke-linejoin="round"/>
+  <text x="400" y="54" text-anchor="middle" font-family="Yusei Magic, sans-serif" font-size="15" fill="#2B2A26">全体（親）</text>
+
+  <!-- 親→子の枝 -->
+  <path d="M400 68 L200 108 M400 68 L400 108 M400 68 L600 108" fill="none" stroke="#2B2A26" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- 子 -->
+  <rect x="120" y="108" width="160" height="40" rx="9" fill="#DDEAF4" stroke="#2B2A26" stroke-width="2.5" stroke-linejoin="round"/>
+  <text x="200" y="134" text-anchor="middle" font-family="Yusei Magic, sans-serif" font-size="14" fill="#2B2A26">子 A</text>
+  <rect x="320" y="108" width="160" height="40" rx="9" fill="#DDEAF4" stroke="#2B2A26" stroke-width="2.5" stroke-linejoin="round"/>
+  <text x="400" y="134" text-anchor="middle" font-family="Yusei Magic, sans-serif" font-size="14" fill="#2B2A26">子 B</text>
+  <rect x="520" y="108" width="160" height="40" rx="9" fill="#DDEAF4" stroke="#2B2A26" stroke-width="2.5" stroke-linejoin="round"/>
+  <text x="600" y="134" text-anchor="middle" font-family="Yusei Magic, sans-serif" font-size="14" fill="#2B2A26">子 C</text>
+
+  <!-- 子→孫の枝（子Aだけ展開） -->
+  <path d="M200 148 L140 186 M200 148 L260 186" fill="none" stroke="#2B2A26" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- 孫 -->
+  <rect x="70" y="186" width="140" height="36" rx="8" fill="#FFFDF7" stroke="#2B2A26" stroke-width="2" stroke-linejoin="round"/>
+  <text x="140" y="210" text-anchor="middle" font-family="Zen Kurenaido, sans-serif" font-size="13" fill="#2B2A26">孫 A-1</text>
+  <rect x="220" y="186" width="140" height="36" rx="8" fill="#FFFDF7" stroke="#2B2A26" stroke-width="2" stroke-linejoin="round"/>
+  <text x="290" y="210" text-anchor="middle" font-family="Zen Kurenaido, sans-serif" font-size="13" fill="#2B2A26">孫 A-2</text>
+</svg>

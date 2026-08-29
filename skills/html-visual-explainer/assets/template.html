@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- TITLE: 記事の主題を1行で。グラレコは「〜を、まるっと図解」の型が映える -->
+<title>__TITLE__</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Yusei Magic=マーカー見出し / Zen Kurenaido=ペン本文 / JetBrains Mono=コードだけ -->
+<link href="https://fonts.googleapis.com/css2?family=Yusei+Magic&family=Zen+Kurenaido&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FBF7EC;      /* フリップチャート紙（温かいクリーム） */
+    --card:#FFFDF7;       /* 箱の面。紙よりわずかに白い */
+    --ink:#2B2A26;        /* マーカーの黒（枠線・本文） */
+    --ink-soft:#6E695C;   /* 補足文字（薄い鉛筆） */
+    --line:#E4DCC6;       /* 表の内側の破線 */
+    --blue:#2E7DB5;       /* 構造・つなぎ線・番号（青マーカー） */
+    --coral:#EA5A3D;      /* 主役・signature（朱色マーカー） */
+    --green:#4E9A51;      /* 正しい・ゴール（緑マーカー） */
+    --crimson:#C64444;    /* 危険・×（赤マーカー） */
+    --sun:#FFC93C;        /* ハイライト・元気（蛍光ペン黄） */
+    --shadow:#D9CFB6;     /* 手描きのドロップシャドウ（紙色の影） */
+    --code-bg:#2B2A26;
+    --code-ink:#F3EFE2;
+    /* 付箋・吹き出しの淡いインク */
+    --wash-blue:#DDEAF4;
+    --wash-coral:#FBE1D7;
+    --wash-green:#DEEFD8;
+    --wash-sun:#FFF0C2;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    color:var(--ink);
+    font-family:"Zen Kurenaido","Noto Sans JP",system-ui,sans-serif;
+    line-height:2.0;
+    -webkit-font-smoothing:antialiased;
+    background-color:var(--paper); /* フリップチャート紙（無地） */
+  }
+
+  .wrap{max-width:860px;margin:0 auto;padding:0 22px;}
+
+  /* ========== 手描きの箱（signature 技法・全体で使い回す） ==========
+     いびつな border-radius ＋ ぼかさない斜めの影＝マーカーで描いた箱。
+     文字は歪まないので読みやすさは保たれる。 */
+  .sketch{
+    background:var(--card);
+    border:2.5px solid var(--ink);
+    border-radius:255px 14px 235px 14px/14px 245px 15px 255px;
+    box-shadow:6px 7px 0 -1px var(--shadow);
+  }
+  .sketch.alt{ border-radius:14px 245px 14px 255px/235px 14px 255px 15px; } /* 交互に変えると手描き感が増す */
+
+  /* ---------- ヒーロー ---------- */
+  header.hero{padding:64px 0 22px;position:relative;}
+  .eyebrow{
+    display:inline-block;font-family:"Yusei Magic",sans-serif;
+    font-size:13px;letter-spacing:.04em;color:var(--card);
+    background:var(--blue);border:2.5px solid var(--ink);
+    border-radius:8px 15px 7px 13px/13px 7px 15px 8px;
+    padding:3px 14px;margin:0 0 20px;transform:rotate(-1.5deg);
+    box-shadow:3px 3px 0 -1px var(--shadow);
+  }
+  h1.title{
+    font-family:"Yusei Magic",sans-serif;font-weight:400;
+    font-size:clamp(31px,7vw,56px);line-height:1.3;letter-spacing:.005em;margin:0 0 8px;
+  }
+  /* 主役の語は蛍光ペンの手描きスウォッシュで囲う */
+  h1.title .accent{
+    color:var(--ink);position:relative;white-space:nowrap;
+    background:linear-gradient(105deg,transparent 2%,var(--sun) 2% 97%,transparent 97%);
+    padding:0 .12em;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+  }
+  h1.title .u{ /* マーカーの二度引き下線 */
+    position:relative;white-space:nowrap;
+    background-image:linear-gradient(90deg,var(--coral),var(--coral));
+    background-size:100% 6px;background-position:0 92%;background-repeat:no-repeat;
+    padding-bottom:2px;
+  }
+  /* 吹き出し：導入文を facilitator のセリフのように置く */
+  .bubble{
+    position:relative;margin:24px 0 8px;padding:18px 22px;
+    font-size:clamp(15px,2.4vw,18px);color:var(--ink);max-width:660px;
+    background:var(--card);border:2.5px solid var(--ink);
+    border-radius:22px 22px 22px 4px;box-shadow:6px 7px 0 -1px var(--shadow);
+  }
+  .bubble::after{ /* 吹き出しのしっぽ */
+    content:"";position:absolute;left:26px;bottom:-15px;width:22px;height:16px;
+    background:var(--card);border-left:2.5px solid var(--ink);border-bottom:2.5px solid var(--ink);
+    border-radius:0 0 0 8px;transform:skewX(-18deg);
+  }
+  .hero-figure{margin:30px 0 0;}
+  .hero-figure svg{width:100%;height:auto;display:block;}
+
+  /* ---------- 大きな手描き矢印（seam の代わり＝一枚の流れを作る） ---------- */
+  .arrow{display:flex;justify-content:center;margin:30px 0;}
+  .arrow svg{width:96px;height:auto;display:block;overflow:visible;}
+
+  /* ---------- セクション見出し：番号バッジ ＋ マーカーバナー ---------- */
+  section{margin:0 0 6px;}
+  .head{display:flex;align-items:center;gap:14px;margin:0 0 18px;flex-wrap:wrap;}
+  .badge{width:56px;height:56px;flex:0 0 auto;}
+  .banner{
+    font-family:"Yusei Magic",sans-serif;color:var(--card);
+    font-size:clamp(19px,3.6vw,27px);line-height:1.35;
+    background:var(--coral);border:2.5px solid var(--ink);
+    padding:6px 20px;border-radius:9px 18px 8px 16px/15px 8px 17px 9px;
+    box-shadow:5px 6px 0 -1px var(--shadow);transform:rotate(-.8deg);
+  }
+  .banner.blue{background:var(--blue);}
+  .banner.green{background:var(--green);}
+
+  p{margin:0 0 16px;}
+  strong{font-weight:400;color:var(--coral);}
+  /* ハイライト：蛍光ペンをさっと引いた跡（少し傾く） */
+  .hl{
+    background:linear-gradient(100deg,transparent 1%,var(--sun) 1% 98%,transparent 98%);
+    padding:0 .1em;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+  }
+  /* 用語チップ：手描きの名札 */
+  .term{
+    font-family:"JetBrains Mono",monospace;font-size:.86em;
+    background:var(--card);border:2px solid var(--ink);
+    padding:0 8px;border-radius:6px 11px 5px 10px/10px 5px 11px 6px;
+    color:var(--ink);word-break:break-word;box-shadow:2px 2px 0 -1px var(--shadow);
+  }
+
+  /* ---------- 図の枠（手描きの箱） ---------- */
+  figure{margin:24px 0;padding:18px 16px 12px;}
+  figure svg{width:100%;height:auto;display:block;}
+  figcaption{
+    font-family:"Yusei Magic",sans-serif;font-size:14px;color:var(--ink-soft);
+    text-align:center;margin-top:12px;
+  }
+
+  /* ---------- 付箋（コールアウト） ---------- */
+  .note{
+    position:relative;margin:24px 0;padding:16px 20px;font-size:15px;line-height:1.9;
+    background:var(--wash-sun);border:2.5px solid var(--ink);
+    border-radius:8px;box-shadow:5px 6px 0 -1px var(--shadow);transform:rotate(-.6deg);
+  }
+  .note.warn{background:var(--wash-coral);}
+  .note.good{background:var(--wash-green);}
+  .note.info{background:var(--wash-blue);}
+  .note b{font-family:"Yusei Magic",sans-serif;font-weight:400;}
+  .note .pin{ /* マスキングテープ */
+    position:absolute;top:-11px;left:26px;width:56px;height:20px;
+    background:rgba(255,201,60,.7);border:1.5px solid rgba(43,42,38,.35);
+    transform:rotate(-4deg);
+  }
+  .note.warn .pin{background:rgba(234,90,61,.5);}
+  .note.good .pin{background:rgba(78,154,81,.5);}
+  .note.info .pin{background:rgba(46,125,181,.45);}
+
+  /* ---------- コードブロック（貼り付けたメモ用紙のように） ---------- */
+  .code{
+    margin:22px 0;border:2.5px solid var(--ink);border-radius:12px;overflow:hidden;
+    box-shadow:6px 7px 0 -1px var(--shadow);background:var(--code-bg);transform:rotate(-.4deg);
+  }
+  .code .bar{display:flex;align-items:center;gap:7px;padding:9px 14px;border-bottom:2px solid rgba(243,239,226,.14);}
+  .code .bar i{width:12px;height:12px;border-radius:50%;display:block;border:1.5px solid rgba(0,0,0,.25);}
+  .code .bar .f{font-family:"JetBrains Mono",monospace;font-size:12px;color:#B8B2A0;margin-left:8px;}
+  pre{margin:0;padding:15px 18px;overflow-x:auto;}
+  code{font-family:"JetBrains Mono",monospace;font-size:13.5px;line-height:1.75;color:var(--code-ink);white-space:pre;}
+  .c-key{color:#E39BE7;}   /* キーワード */
+  .c-str{color:#B7E48D;}   /* 文字列 */
+  .c-fn{color:#7FC0F0;}    /* 関数名 */
+  .c-com{color:#8E896F;font-style:italic;} /* コメント */
+  .c-num{color:#F0A66C;}   /* 数値 */
+  .c-tag{color:#F08A7E;}   /* タグ */
+  .c-accent{color:#FFC07A;} /* 強調（差分など） */
+
+  /* ---------- まとめ表（手描きの枠） ---------- */
+  .stack{width:100%;border-collapse:separate;border-spacing:0;margin:22px 0;font-size:15px;
+    background:var(--card);border:2.5px solid var(--ink);border-radius:14px;overflow:hidden;
+    box-shadow:6px 7px 0 -1px var(--shadow);}
+  .stack th,.stack td{padding:12px 15px;text-align:left;border-bottom:2px dashed var(--line,#E0D8C4);vertical-align:top;}
+  .stack th{background:var(--wash-sun);font-family:"Yusei Magic",sans-serif;font-weight:400;border-bottom:2.5px solid var(--ink);}
+  .stack tr:last-child td{border-bottom:none;}
+  .stack td:first-child{font-family:"Yusei Magic",sans-serif;color:var(--coral);white-space:nowrap;}
+
+  footer{margin:64px 0 48px;padding-top:22px;border-top:3px dashed var(--shadow);
+    font-family:"Yusei Magic",sans-serif;font-size:14px;color:var(--ink-soft);}
+
+  /* ---------- reveal（スクロール出現） ---------- */
+  .reveal{opacity:0;transform:translateY(18px) rotate(-.3deg);transition:opacity .6s ease,transform .6s ease;}
+  .reveal.in{opacity:1;transform:none;}
+
+  /* ========== もくじサイドバー（左余白に固定・現在地が光る） ==========
+     中身は JS が <section> から自動生成する（手で書かない）。
+     本文 .wrap には一切干渉しない設計：幅が足りない画面では丸ごと消え、
+     代わりに上端の進捗バーだけが出る。 */
+  section{scroll-margin-top:24px;} /* 目次から飛んだとき見出しが上端に張り付かない */
+
+  .toc{
+    display:none; /* 幅が足りる画面でだけ flex になる（下の media query） */
+    position:fixed;top:50%;transform:translateY(-50%);
+    right:calc(50% + 452px); /* 本文の左端(860/2=430px)からさらに22px左 */
+    width:184px;max-height:74vh;
+    flex-direction:column;
+    padding:14px 13px 12px;z-index:20;
+    /* .sketch と同じ手描きの箱 */
+    background:var(--card);border:2.5px solid var(--ink);
+    border-radius:255px 14px 235px 14px/14px 245px 15px 255px;
+    box-shadow:6px 7px 0 -1px var(--shadow);
+  }
+  .toc::before{ /* 上辺のマスキングテープ（付箋の .pin と同じ質感） */
+    content:"";position:absolute;top:-10px;left:50%;margin-left:-28px;
+    width:56px;height:19px;background:rgba(255,201,60,.7);
+    border:1.5px solid rgba(43,42,38,.35);transform:rotate(-3deg);
+  }
+  .toc-ttl{
+    font-family:"Yusei Magic",sans-serif;font-size:14px;letter-spacing:.06em;
+    text-align:center;margin:0 0 9px;padding-bottom:8px;
+    border-bottom:2px dashed var(--shadow);transform:rotate(-1deg);
+  }
+  .toc ol{
+    margin:0;padding:0;list-style:none;
+    overflow-y:auto;overscroll-behavior:contain; /* 章が多い記事だけここがスクロールする */
+  }
+  .toc li{margin:0 0 3px;}
+  .toc a{
+    display:flex;align-items:flex-start;gap:7px;
+    padding:5px 7px;border-left:4px solid transparent; /* 透明でも幅を確保＝現在地でズレない */
+    border-radius:7px 11px 6px 10px/10px 6px 11px 7px;
+    color:var(--ink);text-decoration:none;font-size:12.5px;line-height:1.55;
+    transition:background .2s ease;
+  }
+  .toc a:hover{background:var(--wash-sun);}
+  .toc a .n{ /* 番号バッジの小型版（本文の .badge と揃える） */
+    flex:0 0 auto;width:19px;height:19px;margin-top:2px;
+    display:flex;align-items:center;justify-content:center;
+    font-family:"Yusei Magic",sans-serif;font-size:11px;line-height:1;
+    background:var(--sun);border:1.5px solid var(--ink);border-radius:50%;
+  }
+  .toc a .t{ /* 長い章タイトルは3行で切る */
+    display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;
+  }
+  /* 現在地：本文の .hl と同じ蛍光ペン＋朱色の耳。色だけに頼らず形でも示す */
+  .toc a[aria-current]{border-left-color:var(--coral);}
+  .toc a[aria-current] .t{
+    background:linear-gradient(100deg,transparent 1%,var(--sun) 1% 98%,transparent 98%);
+  }
+  .toc a[aria-current] .n{background:var(--coral);color:var(--card);}
+
+  /* 目次が出ない狭い画面用：上端の進捗バー（紙の上を朱のマーカーが伸びる） */
+  .progress{position:fixed;top:0;left:0;right:0;height:4px;z-index:30;background:var(--shadow);}
+  .progress i{display:block;height:100%;background:var(--coral);transform:scaleX(0);transform-origin:0 50%;}
+
+  @media (min-width:1300px){
+    .toc{display:flex;}
+    .progress{display:none;}
+  }
+  @media print{
+    .toc,.progress{display:none;}
+  }
+
+  a{color:var(--blue);}
+  :focus-visible{outline:3px solid var(--coral);outline-offset:3px;border-radius:4px;}
+
+  @media (prefers-reduced-motion: reduce){
+    .reveal{opacity:1;transform:none;transition:none;}
+    .flow{animation:none !important;}
+    html{scroll-behavior:auto;}
+    .toc a{transition:none;}
+  }
+  @media (max-width:560px){
+    .banner{transform:none;}
+    .badge{width:48px;height:48px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- 読み進みバー：目次が出ない狭い画面でだけ見える -->
+<div class="progress" aria-hidden="true"><i></i></div>
+
+<!-- ============================================================
+     もくじ：<ol> の中身は触らない。ページ下部のスクリプトが
+     各 <section> の .banner と .badge を読んで自動で組み立てる。
+     章を足したい＝<section> を足すだけ（目次は勝手に増える）。
+     ============================================================ -->
+<nav class="toc" aria-label="もくじ">
+  <p class="toc-ttl">もくじ</p>
+  <ol></ol>
+</nav>
+
+<div class="wrap">
+
+  <!-- ============================================================
+       HERO ― マーカーで書いた表題。主役の語を蛍光ペンで囲む。
+       導入文は facilitator のセリフのように吹き出しに入れる。
+       ============================================================ -->
+  <header class="hero">
+    <p class="eyebrow">__EYEBROW（分野タグ・短く）__</p>
+    <h1 class="title">__見出し前半__、<br><span class="accent">__主役の語__</span>を<span class="u">まるっと図解</span>。</h1>
+
+    <div class="bubble">
+      __導入文。「これから何を、どんな順で描くか」を宣言する。
+      最後に「絵で追えるので、初めてでも迷いません」のような初心者への一言を必ず入れる。__
+    </div>
+
+    <!-- HERO 図：主役の比喩を1枚の手描き箱で。中身は svg-guide の型を土台にする -->
+    <figure class="hero-figure sketch">
+      <svg viewBox="0 0 800 250" role="img" aria-label="__この図が何を表すかを説明__">
+        <rect x="0" y="0" width="800" height="250" fill="none"/>
+        <text x="400" y="130" text-anchor="middle" font-family="Yusei Magic, sans-serif" font-size="17" fill="#6E695C">ここにヒーロー図（下の作例を土台に手描き化する）</text>
+      </svg>
+      <figcaption>__この絵で一番言いたいこと（1行）__</figcaption>
+    </figure>
+  </header>
+
+  <!-- 大きな手描き矢印：ここから一枚の流れが始まる -->
+  <div class="arrow">
+    <svg viewBox="0 0 96 84" role="img" aria-label="下へ続く矢印" id="veArrow1">
+      <style>
+        @keyframes veArrow1Dash{to{stroke-dashoffset:-36}}
+        #veArrow1 .flow{animation:veArrow1Dash 3.2s linear infinite}
+        @media (prefers-reduced-motion:reduce){#veArrow1 .flow{animation:none}}
+      </style>
+      <path d="M48 6 C34 26 62 44 48 66" fill="none" stroke="#2B2A26" stroke-width="4" stroke-linecap="round"/>
+      <path class="flow" d="M48 6 C34 26 62 44 48 66" fill="none" stroke="#EA5A3D" stroke-width="3" stroke-linecap="round" stroke-dasharray="2 16"/>
+      <path d="M33 55 L48 72 L63 54" fill="none" stroke="#2B2A26" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+
+  <!-- ============================================================
+       01 ― 全体像。細部の前に「登場人物と流れ」だけを掴ませる
+       ============================================================ -->
+  <section class="reveal">
+    <div class="head">
+      <!-- 番号バッジ：手描きの丸に数字。svg id は図ごとに一意に -->
+      <svg class="badge" viewBox="0 0 60 60" role="img" aria-label="ステップ1">
+        <path d="M30 4 C44 3 57 15 56 30 C57 45 44 57 30 56 C16 57 3 45 4 30 C3 15 16 3 30 4 Z" fill="#FFC93C" stroke="#2B2A26" stroke-width="2.5"/>
+        <text x="30" y="40" text-anchor="middle" font-family="Yusei Magic, sans-serif" font-size="28" fill="#2B2A26">1</text>
+      </svg>
+      <span class="banner blue">__まず全体像：どこを通ってどこへ届く？__</span>
+    </div>
+
+    <p>
+      __むずかしい話に入る前に、流れと登場人物“だけ”を掴ませる。
+      「それぞれ別の場所・別のタイミングで働くから衝突しない」のような、
+      後続すべての理解のカギになる一文をここに置く。__
+    </p>
+
+    <figure class="sketch">
+      <!-- svg-guide の flow-pipeline を土台に、線を手描き風（stroke-linecap=round・太め）に -->
+      <svg viewBox="0 0 800 250" role="img" aria-label="__流れ全体の説明__"></svg>
+      <figcaption>__この絵のキャプション（一番言いたいことを1行で）__</figcaption>
+    </figure>
+
+    <p>__「では主役の〜から見ていきましょう」と次章へ橋渡しする。__</p>
+  </section>
+
+  <div class="arrow">
+    <svg viewBox="0 0 96 84" role="img" aria-label="下へ続く矢印" id="veArrow2">
+      <style>
+        @keyframes veArrow2Dash{to{stroke-dashoffset:-36}}
+        #veArrow2 .flow{animation:veArrow2Dash 3.2s linear infinite}
+        @media (prefers-reduced-motion:reduce){#veArrow2 .flow{animation:none}}
+      </style>
+      <path d="M48 6 C62 26 34 44 48 66" fill="none" stroke="#2B2A26" stroke-width="4" stroke-linecap="round"/>
+      <path class="flow" d="M48 6 C62 26 34 44 48 66" fill="none" stroke="#EA5A3D" stroke-width="3" stroke-linecap="round" stroke-dasharray="2 16"/>
+      <path d="M33 55 L48 72 L63 54" fill="none" stroke="#2B2A26" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+
+  <!-- ============================================================
+       02..0N ― 概念を1つずつ。1章＝1概念。依存の順に並べる
+       各章の型：説明文 → figure(手描き箱) →（必要なら）code → 付箋
+       ============================================================ -->
+  <section class="reveal">
+    <div class="head">
+      <svg class="badge" viewBox="0 0 60 60" role="img" aria-label="ステップ2">
+        <path d="M30 4 C44 3 57 15 56 30 C57 45 44 57 30 56 C16 57 3 45 4 30 C3 15 16 3 30 4 Z" fill="#FFC93C" stroke="#2B2A26" stroke-width="2.5"/>
+        <text x="30" y="40" text-anchor="middle" font-family="Yusei Magic, sans-serif" font-size="28" fill="#2B2A26">2</text>
+      </svg>
+      <span class="banner">__概念名：一言でいうと何をする？__</span>
+    </div>
+
+    <p>
+      __その概念を、日常の比喩に置き換えて説明する。
+      専門用語は <span class="term">用語</span> で示し、初出時に必ず意味を添える。
+      一番大事な主張は <span class="hl">ハイライト</span> で目立たせる（1段落に1回）。__
+    </p>
+
+    <figure class="sketch alt">
+      <!-- この概念に合う型を svg-guide から選び、手描き風に化粧する -->
+      <svg viewBox="0 0 800 210" role="img" aria-label="__図の説明__"></svg>
+      <figcaption>__キャプション__</figcaption>
+    </figure>
+
+    <!-- コードが要る技術トピックのときだけ。不要なら丸ごと削除してよい -->
+    <div class="code">
+      <div class="bar"><i style="background:#FF5F57"></i><i style="background:#FEBC2E"></i><i style="background:#28C840"></i><span class="f">__ファイル名.ext__</span></div>
+<pre><code><span class="c-com">// 最小のコード。全部を見せず「言いたい1点」に絞る</span>
+<span class="c-key">const</span> x = <span class="c-fn">example</span>();</code></pre>
+    </div>
+
+    <div class="note">
+      <span class="pin"></span>
+      <b>__見出し：__</b> __補足・落とし穴・大事なルールを短く。
+      note（黄・補足）／ note warn（赤・注意）／ note good（緑・うれしい結論）／ note info（青・前提）を使い分ける。__
+    </div>
+  </section>
+
+  <div class="arrow">
+    <svg viewBox="0 0 96 84" role="img" aria-label="下へ続く矢印" id="veArrow3">
+      <style>
+        @keyframes veArrow3Dash{to{stroke-dashoffset:-36}}
+        #veArrow3 .flow{animation:veArrow3Dash 3.2s linear infinite}
+        @media (prefers-reduced-motion:reduce){#veArrow3 .flow{animation:none}}
+      </style>
+      <path d="M48 6 C34 26 62 44 48 66" fill="none" stroke="#2B2A26" stroke-width="4" stroke-linecap="round"/>
+      <path class="flow" d="M48 6 C34 26 62 44 48 66" fill="none" stroke="#EA5A3D" stroke-width="3" stroke-linecap="round" stroke-dasharray="2 16"/>
+      <path d="M33 55 L48 72 L63 54" fill="none" stroke="#2B2A26" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+
+  <!-- ============================================================
+       LAST ― まとめ。「誰が・いつ・どこで働くか」を1枚の表に畳む
+       ============================================================ -->
+  <section class="reveal">
+    <div class="head">
+      <svg class="badge" viewBox="0 0 60 60" role="img" aria-label="まとめ">
+        <path d="M30 3 L37 12 L48 9 L47 21 L57 27 L48 34 L52 46 L40 44 L33 54 L27 44 L15 47 L17 35 L7 29 L17 22 L14 10 L26 13 Z" fill="#4E9A51" stroke="#2B2A26" stroke-width="2.5" stroke-linejoin="round"/>
+        <text x="32" y="35" text-anchor="middle" font-family="Yusei Magic, sans-serif" font-size="15" fill="#FFFDF7">✔</text>
+      </svg>
+      <span class="banner green">まとめ：__一言で全体を回収する__</span>
+    </div>
+
+    <p>__各要素が別々の担当・タイミングで動くから衝突しない、等の締め。__</p>
+
+    <table class="stack">
+      <thead>
+        <tr><th>__要素__</th><th>役割</th><th>働く場所/タイミング</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>__A__</td><td>__役割__</td><td>__どこで__</td></tr>
+        <tr><td>__B__</td><td>__役割__</td><td>__どこで__</td></tr>
+      </tbody>
+    </table>
+
+    <div class="note good">
+      <span class="pin"></span>
+      <b>次の一歩：</b> __「まずは動くものを、次に〜を」のような、読者を前に進める一言。__
+    </div>
+  </section>
+
+  <footer>
+    ✦ __記事タイトル ／ 登場した用語やツールの一覧__<br>
+    出典: __参照した情報源があれば__
+  </footer>
+
+</div>
+
+<script>
+  // 軽いスクロールリビール（reduced-motion 尊重は CSS 側）
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  },{threshold:0.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  // 矢印や図の中の流れアニメ（class="flow" の破線が流れる）
+  if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    let off=0;
+    const flows=document.querySelectorAll('.flow');
+    function tick(){ off=(off-0.5); flows.forEach(f=>f.style.strokeDashoffset=off); requestAnimationFrame(tick); }
+    tick();
+  }
+
+  // ---- もくじサイドバー：<section> から自動生成して、現在地を追いかける ----
+  (function(){
+    const list = document.querySelector('.toc ol');
+    const bar  = document.querySelector('.progress i');
+    const items = [];
+
+    // 1) 目次を組み立てる。ラベル＝.banner のテキスト、印＝.badge の数字（まとめは ✔）
+    if(list){
+      document.querySelectorAll('.wrap section').forEach((sec,i)=>{
+        const banner = sec.querySelector('.banner');
+        if(!banner) return;                       // 見出しの無い section は載せない
+        if(!sec.id) sec.id = 'sec-' + (i+1);      // id が無ければ自動採番
+        const mark = sec.querySelector('.badge text');
+        const a = document.createElement('a');
+        a.href = '#' + sec.id;
+        a.appendChild(Object.assign(document.createElement('span'),
+          {className:'n', textContent:(mark ? mark.textContent.trim() : String(i+1))}));
+        a.appendChild(Object.assign(document.createElement('span'),
+          {className:'t', textContent:banner.textContent.trim()}));
+        const li = document.createElement('li');
+        li.appendChild(a);
+        list.appendChild(li);
+        items.push({sec, a});
+      });
+      if(!items.length) document.querySelector('.toc').remove();
+    }
+
+    // 2) スクロールに合わせて現在地と進捗バーを更新（rAF で間引く）
+    let ticking = false;
+    let current = null;
+    function update(){
+      ticking = false;
+      const line = window.innerHeight * 0.3;   // 画面の上から30%を「読んでいる位置」とみなす
+      const max  = document.documentElement.scrollHeight - window.innerHeight;
+      let cur = null;
+      // 上端がその線を越えた最後の section が現在地（背の高い章でも取りこぼさない）
+      for(const it of items){ if(it.sec.getBoundingClientRect().top <= line) cur = it; }
+      // ページ末尾では必ず最後の章。短いまとめの章は線まで上がってこられないため
+      if(items.length && max > 0 && window.scrollY >= max - 2) cur = items[items.length - 1];
+      if(cur !== current){
+        if(current) current.a.removeAttribute('aria-current');
+        if(cur){
+          cur.a.setAttribute('aria-current','true');
+          // 章が多くて目次自体がスクロールするときだけ、現在地を見える位置へ
+          if(list && list.scrollHeight > list.clientHeight) cur.a.scrollIntoView({block:'nearest'});
+        }
+        current = cur;
+      }
+      if(bar) bar.style.transform = 'scaleX(' + (max > 0 ? Math.min(1, window.scrollY / max) : 0) + ')';
+    }
+    function onScroll(){ if(!ticking){ ticking = true; requestAnimationFrame(update); } }
+    addEventListener('scroll', onScroll, {passive:true});
+    addEventListener('resize', onScroll);
+    update();
+  })();
+</script>
+
+</body>
+</html>

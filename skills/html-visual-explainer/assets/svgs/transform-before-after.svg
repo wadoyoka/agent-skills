@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 210" role="img" aria-label="入力が操作を通って出力に変わる、変換の前後を並べた図">
+  <!-- 変換：入力（左）→ 操作 → 出力（右）。「入れた物がこう変わって返る」を見せる型 -->
+  <rect x="0" y="0" width="800" height="210" rx="14" fill="#FBF7EC"/>
+
+  <!-- 入力（変換の前：ink の破線枠＝まだ整っていない） -->
+  <rect x="30" y="40" width="330" height="130" rx="12" fill="#FFFDF7" stroke="#2B2A26" stroke-width="2.5" stroke-dasharray="9 7" stroke-linejoin="round"/>
+  <text x="50" y="30" font-family="Yusei Magic, sans-serif" font-size="14" fill="#C64444">入力（変換の前）⚠</text>
+  <text x="195" y="96" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="15" fill="#2B2A26">"元のデータ"</text>
+  <text x="195" y="126" text-anchor="middle" font-family="Zen Kurenaido, sans-serif" font-size="13" fill="#C64444">どこが問題か</text>
+
+  <!-- 操作（朱のラベル ＋ ink の矢印） -->
+  <path d="M368 105 L430 105" fill="none" stroke="#2B2A26" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M421 97 L434 105 L421 113" fill="none" stroke="#2B2A26" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="400" y="90" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="12.5" font-weight="600" fill="#EA5A3D">操作()</text>
+
+  <!-- 出力（変換の後：緑の wash ＋ 影） -->
+  <rect x="445" y="46" width="330" height="130" rx="12" fill="#D9CFB6"/>
+  <rect x="440" y="40" width="330" height="130" rx="12" fill="#DEEFD8" stroke="#2B2A26" stroke-width="2.5" stroke-linejoin="round"/>
+  <text x="460" y="30" font-family="Yusei Magic, sans-serif" font-size="14" fill="#4E9A51">出力（変換の後）✓</text>
+  <text x="605" y="96" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="15" fill="#2B2A26">"整ったデータ"</text>
+  <text x="605" y="126" text-anchor="middle" font-family="Zen Kurenaido, sans-serif" font-size="13" fill="#4E9A51">どう変わったか</text>
+</svg>
