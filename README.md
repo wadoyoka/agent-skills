@@ -13,6 +13,7 @@ Claude Code と Codex で共用するエージェントスキルの置き場。
 | スキル | 概要 |
 |--------|------|
 | [html-visual-explainer](skills/html-visual-explainer/) | 質問に対して、インラインSVGの図解つき・日本語・単一ファイルの HTML 解説ページ（グラレコ風）を1枚生成する |
+| [explainer-video](skills/explainer-video/) | ナレーション（VOICEVOX）と字幕つきの動画（MP4）を、依頼ごとに聞き手・目的に合わせて設計してコードで作る。Remotion の規約に当たる場合は HTML/CSS/JS で作る |
 
 ## セットアップ
 
@@ -39,11 +40,25 @@ cd ~/github-projects/github.com/wadoyoka/agent-skills
 （`~/.claude/skills/` や `~/.agents/skills/` の中に残すと、`.bak` ディレクトリまで
 重複スキルとして読み込まれるため、外へ逃がしている。）
 
+## セキュリティスキャン（開発用）
+
+開発用の道具は [mise](https://mise.jdx.dev/) で入れる（`.mise.toml`）。スキルを使うだけなら要らない。
+
+```bash
+mise trust && mise install   # 初回だけ（trivy を入れる）
+mise run scan                # 依存の脆弱性と秘密情報の書き込みを調べる（見つかったら失敗）
+mise run scan:voicevox       # explainer-video が使う VOICEVOX エンジンのイメージを調べる（報告だけ）
+```
+
+`scan:voicevox` は他者が作ったイメージを調べるもので、見つかった項目はこのリポジトリでは直せない。
+更新されたイメージに替えるかどうかの判断材料に使う。
+
 ## ディレクトリ構成
 
 ```
 ./
 ├── setup.sh                  全スキル一括セットアップ（各 skills/*/scripts/setup.sh を呼ぶ）
+├── .mise.toml                開発用の道具（trivy）とスキャンのタスク
 ├── README.md
 └── skills/
     └── html-visual-explainer/
