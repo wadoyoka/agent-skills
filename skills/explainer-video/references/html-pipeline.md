@@ -20,8 +20,12 @@ SKILL=<このスキルのディレクトリ>
 mkdir -p movie && cp -R "$SKILL/assets/html/." movie/
 cp "$SKILL"/scripts/*.mjs "$SKILL/scripts/contact-sheet.sh" movie/
 cp "$SKILL/assets/narration.example.json" movie/narration.json
-cd movie && npm install
+cd movie
+node scan-deps.mjs   # 入れる前に trivy で脆弱性を調べる。0 なら次へ。1 なら dependency-scan.md
+npm ci               # 調べた package-lock.json のとおりに入れる
 ```
+
+`scan-deps.mjs` が 0 で終わるまで `npm ci` しない。見つかったときの直し方と止め方は `dependency-scan.md`。
 
 ブラウザは、入っている Google Chrome → Microsoft Edge → Playwright の Chromium の順に探す。
 どれも無ければ `npx playwright-core install chromium`。

@@ -57,6 +57,13 @@ AskUserQuestion で次のどれかを選んでもらう。
 聞くなら手順 1 と同じ AskUserQuestion にまとめる。ほかの項目（長さ・トーン・配色・声）は依頼から推定して決め、
 決めたことを短く伝える。ユーザーが「任せる」「その体で作って」と言ったら、それ以上は聞かずに進める。
 
+### 3. trivy が入っているか（必ず確かめる）
+
+npm の依存と VOICEVOX のイメージは、入れる前・立ち上げる前に trivy で脆弱性を調べる（手順 4・8）。
+`trivy --version` が通らなければ、何も作らずに止め、入れ方（macOS は `brew install trivy`、mise なら `mise use -g trivy`）を伝えて、
+入ったと言われてから始める。
+自分では入れない。詳細は `references/dependency-scan.md`。
+
 ## 作業場所: `movie/` で、見える形で作る
 
 - ユーザーの作業ディレクトリ直下に `movie/` を作り、**すべての作業をその中で行う**。
@@ -154,6 +161,16 @@ node movie/voicevox-speakers.mjs   # つながれば話者一覧が出る
 `make -C movie/voicevox up` で立ち上げる。初回はイメージの取得に時間がかかるので、そう伝える。
 `docker-compose` コマンドが無く `docker compose` だけある環境では、Makefile の該当箇所を読み替える。
 
+立ち上げる前に、イメージを trivy で調べる。エンジンがすでに Docker で動いていてつながったときも、
+`docker ps --format '{{.Image}}'` に出るそのイメージを調べる。`movie/` にスクリプトがまだ無ければ、スキルの `scripts/*.mjs` を写してから。
+
+```bash
+node movie/scan-deps.mjs --image voicevox/voicevox_engine:cpu-ubuntu20.04-latest   # docker-compose.yml の image
+```
+
+CRITICAL が 1 件でもあれば（終了コード 1）、そのイメージで音声を作る前に止めて聞く。イメージは公式のものでこちらでは直せないので、
+見つかったものを見せて、そのまま使うか・別のイメージに替えるか・使わないかを選んでもらう（`references/dependency-scan.md`）。
+
 ### 5. 話者を選び、規約を確かめる
 
 ```bash
@@ -210,6 +227,11 @@ node check-readings.mjs   # 英数字を含む文の読み（カナ）を表示
 - Remotion 版: `references/remotion.md` を読み、`assets/remotion/` を `movie/` に写して使う。
 - HTML 版: `references/html-pipeline.md` を読み、`assets/html/` を `movie/` に写して使う。
 
+依存は、入れる前に `node scan-deps.mjs` で調べてから `npm ci` で入れる（`npm install` は使わない）。
+HIGH / CRITICAL が見つかったら（終了コード 1）、直る版があって Remotion 自身でないものは `package.json` の版か `overrides` で上げて
+調べ直し、0 になってから入れる。直る版が無い・Remotion 自身に出た・別のメジャーでしか直らないものは、入れずに止めて聞く。
+手順は `references/dependency-scan.md`。
+
 写したテンプレートを、設計メモの「見た目」に合わせて作り変える:
 
 - **配色**: `light` / `dark` は「2 つの配色の枠」で、中の色は動画ごとに書き換える
@@ -249,6 +271,8 @@ node check-readings.mjs   # 英数字を含む文の読み（カナ）を表示
 - 設計メモの要点（聞き手・ゴール・型）と、推定で決めたこと
 - 確かめたこと / 確かめていないこと（音声を実際に聞いていない、など）
 - 使った描画方法と、その規約上の根拠。話者とクレジット
+- 依存の脆弱性を調べた結果（npm と VOICEVOX のイメージ。0 件 / 上げて直したもの / 了承を得て残したもの）と、
+  調べていないもの（Remotion・Playwright が使うブラウザ本体など）
 - 写っている見本データなど、流す前に知っておくべきこと
 - 直し方: `brief.md` や `narration.json` を直す → `node gen-audio.mjs` → 書き出し直し
 
@@ -261,6 +285,7 @@ node check-readings.mjs   # 英数字を含む文の読み（カナ）を表示
 | `references/remotion.md` | 手順 8（Remotion 版）。テンプレートの使い方 |
 | `references/html-pipeline.md` | 手順 8（HTML 版）。テンプレートと書き出しの仕組み |
 | `references/qa.md` | 手順 9・10。静止画の確認と、書き出し後の確認 |
+| `references/dependency-scan.md` | 作業前の確認・手順 4・8。trivy での脆弱性の調べ方と、見つかったときの直し方・止め方 |
 
 | 同梱物 | 中身 |
 |---|---|
@@ -269,6 +294,7 @@ node check-readings.mjs   # 英数字を含む文の読み（カナ）を表示
 | `scripts/voicevox-speakers.mjs` | 話者一覧と規約の表示 |
 | `scripts/narration-track.mjs` | 1 文ずつの音声を 1 本のナレーションにつなぐ（HTML 版で使う） |
 | `scripts/contact-sheet.sh` | 静止画 4 枚を 2×2 の 1 枚にまとめる |
+| `scripts/scan-deps.mjs` | npm の依存（入れる前）と Docker イメージの脆弱性を trivy で調べる |
 | `assets/voicevox/` | VOICEVOX エンジンの `docker-compose.yml` と `Makefile` |
 | `assets/narration.example.json` | 原稿の見本（テンプレートの動作確認にも使う） |
 | `assets/remotion/` | Remotion 版のテンプレート |

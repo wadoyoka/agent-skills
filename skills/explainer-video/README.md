@@ -18,10 +18,15 @@
 - **過程を隠さない**: 作業はユーザーの作業ディレクトリの `movie/` で行う。原稿・音声・シーンのコード・確認用の静止画が残り、
   あとから自分で直して作り直せる。
 - **画面とナレーションがずれない**: 1 文ずつ音声を作り、その開始フレームに合わせて要素を出す。
+- **依存を入れる前に脆弱性を調べる**: Remotion などの npm 依存は、入れる前に lockfile だけ作って trivy で調べる。
+  HIGH / CRITICAL は、直る版があれば上げて調べ直し、直せなければ止めて聞く。VOICEVOX のイメージも立ち上げる前に調べ、
+  CRITICAL があれば止めて聞く。
 
 ## 必要なもの
 
 - Node.js（18 以上）と ffmpeg
+- [trivy](https://trivy.dev/)（依存とイメージの脆弱性を調べる。macOS は `brew install trivy`、mise なら `mise use -g trivy`。
+  動画を作るディレクトリで使えるように入れる）
 - VOICEVOX エンジン（無ければ `assets/voicevox/` の `docker-compose.yml` で立ち上げる。Docker が要る）
 - HTML 版のみ: Google Chrome か Microsoft Edge（無ければ `npx playwright-core install chromium`）
 
@@ -40,7 +45,8 @@ explainer-video/
 │   ├── check-readings.mjs               英数字を含む文の読み（カナ）を表示
 │   ├── voicevox-speakers.mjs            話者一覧と規約の表示
 │   ├── narration-track.mjs              1 文ずつの音声を 1 本につなぐ（HTML 版）
-│   └── contact-sheet.sh                 静止画 4 枚を 2×2 の 1 枚にまとめる
+│   ├── contact-sheet.sh                 静止画 4 枚を 2×2 の 1 枚にまとめる
+│   └── scan-deps.mjs                    npm の依存と Docker イメージの脆弱性を trivy で調べる
 ├── assets/
 │   ├── voicevox/                        VOICEVOX エンジンの docker-compose.yml と Makefile
 │   ├── narration.example.json           原稿の見本
@@ -51,7 +57,8 @@ explainer-video/
     ├── script-writing.md                構成の型、聞き手・場面に合わせた書き方、字幕と読みの書き分け
     ├── remotion.md                      Remotion 版の作り方
     ├── html-pipeline.md                 HTML 版の作り方
-    └── qa.md                            静止画の確認と、書き出し後の確認
+    ├── qa.md                            静止画の確認と、書き出し後の確認
+    └── dependency-scan.md               trivy での脆弱性の調べ方と、見つかったときの直し方・止め方
 ```
 
 ## VOICEVOX エンジンの立ち上げ
