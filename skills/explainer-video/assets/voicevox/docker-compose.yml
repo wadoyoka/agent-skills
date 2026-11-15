@@ -1,0 +1,7 @@
+services:
+  voicevox-engine:
+    image: voicevox/voicevox_engine:cpu-ubuntu20.04-latest
+    ports:
+      # 自分の端末からだけ受け付ける（同じ LAN の他の端末からは届かない）
+      - "127.0.0.1:50021:50021"
+    restart: unless-stopped

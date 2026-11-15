@@ -1,0 +1,12 @@
+{
+  "name": "explainer-video-html",
+  "private": true,
+  "scripts": {
+    "preview": "node render.mjs --preview",
+    "stills": "node render.mjs --stills",
+    "render": "node render.mjs"
+  },
+  "dependencies": {
+    "playwright-core": "^1.50.0"
+  }
+}

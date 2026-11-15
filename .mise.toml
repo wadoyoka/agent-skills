@@ -1,0 +1,18 @@
+# このリポジトリを開発するときの道具。スキルを使う人には要らない。
+# 初回: mise trust && mise install && lefthook install
+
+[tools]
+trivy = "0.76.1"
+lefthook = "2.2.2"
+
+[tasks.scan]
+description = "リポジトリの依存の脆弱性と、秘密情報の書き込みを調べる（見つかったら失敗）"
+run = "trivy fs --scanners vuln,secret --exit-code 1 ."
+
+[tasks."scan:voicevox"]
+description = "explainer-video が使う VOICEVOX エンジンのイメージを調べる（HIGH・CRITICAL のみ。報告だけ）"
+run = "trivy image --severity HIGH,CRITICAL \"$(sed -n 's/^ *image: *//p' skills/explainer-video/assets/voicevox/docker-compose.yml)\""
+
+[tasks."check:session-url"]
+description = "コミットメッセージに claude.ai のセッション URL（Claude-Session 行など）が入っていないかを、全ブランチの履歴で調べる"
+run = "bash scripts/check-no-session-url.sh --range --branches --tags --remotes"

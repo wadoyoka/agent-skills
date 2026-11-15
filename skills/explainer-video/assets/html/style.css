@@ -1,0 +1,315 @@
+/* 色・字体・部品。テーマは narration.json の scenes[].theme（light / dark）で切り替わる。
+   light / dark は 2 つの配色の枠。中の色は動画ごとに、題材・ブランド・流す場面に合わせて書き換える。 */
+:root {
+  --font: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", "Meiryo", sans-serif;
+  --mono: "SF Mono", "Menlo", "Consolas", "Noto Sans Mono", monospace;
+}
+
+[data-theme="light"] {
+  --bg: #f5f1ea;
+  --bg2: #efe9df;
+  --panel: #ffffff;
+  --ink: #1c1a17;
+  --sub: #6e685e;
+  --line: #e2dcd0;
+  --accent: #d9512c;
+  --accent2: #1e7a6a;
+  --soft: #fbe3d9;
+  --soft2: #d8eee8;
+  --danger: #c62828;
+  --code: #1e2230;
+  --code-ink: #1e2230;
+  --code-bg: rgba(30, 34, 48, 0.07);
+  --glow1: #fbe3d9;
+  --glow2: #d8eee8;
+  --shadow: rgba(60, 40, 20, 0.1);
+}
+
+[data-theme="dark"] {
+  --bg: #0d1220;
+  --bg2: #111829;
+  --panel: #161e31;
+  --ink: #e8ecf4;
+  --sub: #94a0b8;
+  --line: #26314a;
+  --accent: #6aa6ff;
+  --accent2: #5fd4a6;
+  --soft: #1a2a48;
+  --soft2: #143329;
+  --danger: #ff7a7a;
+  --code: #0a0f1b;
+  --code-ink: #bfd6ff;
+  --code-bg: rgba(106, 166, 255, 0.12);
+  --glow1: #1b2c55;
+  --glow2: #0f3a2e;
+  --shadow: rgba(0, 0, 0, 0.35);
+}
+
+html,
+body {
+  margin: 0;
+  background: #000;
+}
+
+/* 1920×1080 の舞台。プレビューでは窓に合わせて縮める。 */
+#stage {
+  position: relative;
+  width: 1920px;
+  height: 1080px;
+  overflow: hidden;
+  background: #000;
+  font-family: var(--font);
+  transform-origin: top left;
+}
+
+.scene {
+  position: absolute;
+  inset: 0;
+  display: none;
+  color: var(--ink);
+  background: radial-gradient(1200px 700px at 85% -10%, var(--glow1) 0%, transparent 60%),
+    radial-gradient(900px 600px at -10% 110%, var(--glow2) 0%, transparent 55%), var(--bg);
+}
+.scene[data-theme="dark"]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse at 50% 40%, black 30%, transparent 80%);
+}
+/* runtime.js が中身をこの箱に入れ、シーンの出入りで薄くする */
+.scene > .inner {
+  position: absolute;
+  inset: 0;
+}
+
+/* 見出し（上 230px まで） */
+.head {
+  position: absolute;
+  left: 120px;
+  top: 64px;
+}
+.part {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: 0.06em;
+}
+.part::before {
+  content: "";
+  width: 28px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--accent);
+}
+.part:empty {
+  display: none;
+}
+.title {
+  font-size: 60px;
+  font-weight: 800;
+  margin-top: 10px;
+}
+
+/* 本文（230〜880px）。下 200px は字幕のために空ける */
+.body {
+  position: absolute;
+  top: 230px;
+  bottom: 200px;
+  left: 120px;
+  right: 120px;
+}
+.center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 120px;
+}
+.row {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+/* data-active を付けると --on が 0〜1 で動く。枠の色と影に効かせる */
+.card {
+  background: var(--panel);
+  border: 2px solid color-mix(in srgb, var(--accent) calc(var(--on, 0) * 100%), var(--line));
+  border-radius: 24px;
+  padding: 32px;
+  box-shadow: 0 10px 30px var(--shadow);
+}
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 18px;
+  border-radius: 999px;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--accent);
+  background: var(--soft);
+  white-space: nowrap;
+}
+.code {
+  font-family: var(--mono);
+  font-size: 22px;
+  padding: 2px 10px;
+  border-radius: 8px;
+  background: var(--code-bg);
+  color: var(--code-ink);
+  white-space: nowrap;
+}
+.codeblock {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 21px;
+  line-height: 1.55;
+  background: var(--code);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 18px 22px;
+  color: #d6e2ff;
+  white-space: pre;
+}
+.badge {
+  width: 72px;
+  height: 72px;
+  border-radius: 22px;
+  background: var(--soft);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.badge .icon {
+  width: 38px;
+  height: 38px;
+}
+.icon {
+  width: 40px;
+  height: 40px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+}
+
+/* data-grow を付けると --p が 0〜1 で動く。左から伸びる矢印 */
+.arrow {
+  position: relative;
+  width: 60px;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--accent);
+  transform: scaleX(var(--p, 1));
+  transform-origin: left center;
+  flex-shrink: 0;
+}
+.arrow::after {
+  content: "";
+  position: absolute;
+  right: -2px;
+  top: -8px;
+  border: 11px solid transparent;
+  border-left: 16px solid var(--accent);
+  border-right: 0;
+}
+
+/* スクリーンショットと強調枠。枠は元画像の CSS ピクセル × 拡大率で置く */
+.shot {
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 24px 60px rgba(30, 20, 10, 0.22), 0 0 0 1px rgba(0, 0, 0, 0.06);
+}
+.shot img {
+  display: block;
+  width: 100%;
+}
+.hl {
+  position: absolute;
+  border-radius: 12px;
+  border: 5px solid var(--accent);
+  opacity: var(--on, 0);
+}
+
+/* 全体に重ねるもの */
+#subtitle {
+  position: absolute;
+  left: 50%;
+  bottom: 46px;
+  transform: translateX(-50%);
+  max-width: 1640px;
+  width: max-content;
+  background: rgba(12, 14, 22, 0.82);
+  color: #fff;
+  font-size: 35px;
+  font-weight: 600;
+  line-height: 1.5;
+  padding: 14px 32px;
+  border-radius: 14px;
+  text-align: center;
+}
+#subtitle:empty {
+  display: none;
+}
+#progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 8px;
+  background: rgba(128, 128, 128, 0.18);
+}
+#progress .fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  background: var(--accent);
+}
+#progress .mark {
+  position: absolute;
+  top: -4px;
+  width: 3px;
+  height: 16px;
+  background: rgba(128, 128, 128, 0.6);
+}
+#credit {
+  position: absolute;
+  right: 64px;
+  top: 52px;
+  font-size: 22px;
+  color: var(--sub);
+}
+
+/* プレビュー用の操作バー（書き出しには写らない） */
+#controls {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 16px;
+  background: #111;
+  color: #ddd;
+  font: 14px var(--font);
+}
+#controls input[type="range"] {
+  flex: 1;
+}

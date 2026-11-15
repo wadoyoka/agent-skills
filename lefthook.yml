@@ -1,0 +1,15 @@
+# git フックの設定（lefthook）。入れ方: mise install && lefthook install
+# このリポジトリは公開なので、claude.ai のセッション URL（Claude-Session 行など）をコミットに入れない。
+# コミットのときにメッセージを、push のときに送るコミットすべてを調べる（--no-verify で作ったコミットも止める）。
+
+commit-msg:
+  commands:
+    no-session-url:
+      run: bash scripts/check-no-session-url.sh --message {1}
+
+pre-push:
+  commands:
+    no-session-url:
+      # push するコミットは、git が標準入力で渡す ref から決める
+      use_stdin: true
+      run: bash scripts/check-no-session-url.sh --push
