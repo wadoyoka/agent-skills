@@ -6,3 +6,6 @@
 
 # スキルが生成する出力
 docs/
+
+# explainer-video の作業フォルダ（node_modules・音声・動画を含む）
+movie/
