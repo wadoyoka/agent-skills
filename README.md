@@ -45,20 +45,29 @@ cd ~/github-projects/github.com/wadoyoka/agent-skills
 開発用の道具は [mise](https://mise.jdx.dev/) で入れる（`.mise.toml`）。スキルを使うだけなら要らない。
 
 ```bash
-mise trust && mise install   # 初回だけ（trivy を入れる）
+mise trust && mise install   # 初回だけ（trivy と lefthook を入れる）
+lefthook install             # 初回だけ（git フックを有効にする）
 mise run scan                # 依存の脆弱性と秘密情報の書き込みを調べる（見つかったら失敗）
 mise run scan:voicevox       # explainer-video が使う VOICEVOX エンジンのイメージを調べる（報告だけ）
+mise run check:session-url   # コミットメッセージに claude.ai のセッション URL が入っていないかを全履歴で調べる
 ```
 
 `scan:voicevox` は他者が作ったイメージを調べるもので、見つかった項目はこのリポジトリでは直せない。
 更新されたイメージに替えるかどうかの判断材料に使う。
+
+このリポジトリは公開なので、claude.ai のセッション URL（`Claude-Session:` 行など）をコミットに入れない。
+`lefthook install` のあとは、git フック（`lefthook.yml` → `scripts/check-no-session-url.sh`）が
+コミットのときにメッセージを、push のときに送るコミットすべてを調べ、入っていれば止める。
 
 ## ディレクトリ構成
 
 ```
 ./
 ├── setup.sh                  全スキル一括セットアップ（各 skills/*/scripts/setup.sh を呼ぶ）
-├── .mise.toml                開発用の道具（trivy）とスキャンのタスク
+├── .mise.toml                開発用の道具（trivy・lefthook）とスキャンのタスク
+├── lefthook.yml              git フック（コミットと push のときにセッション URL が入っていないかを調べる）
+├── scripts/
+│   └── check-no-session-url.sh   コミットメッセージにセッション URL が入っていないかを調べる
 ├── README.md
 └── skills/
     └── html-visual-explainer/
