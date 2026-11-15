@@ -165,7 +165,7 @@ node movie/voicevox-speakers.mjs   # つながれば話者一覧が出る
 `docker ps --format '{{.Image}}'` に出るそのイメージを調べる。`movie/` にスクリプトがまだ無ければ、スキルの `scripts/*.mjs` を写してから。
 
 ```bash
-node movie/scan-deps.mjs --image voicevox/voicevox_engine:cpu-ubuntu20.04-latest   # docker-compose.yml の image
+node movie/scan-deps.mjs --image voicevox/voicevox_engine:cpu-latest   # docker-compose.yml の image
 ```
 
 CRITICAL が 1 件でもあれば（終了コード 1）、そのイメージで音声を作る前に止めて聞く。イメージは公式のものでこちらでは直せないので、

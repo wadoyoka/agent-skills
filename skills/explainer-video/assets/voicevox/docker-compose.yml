@@ -1,6 +1,7 @@
 services:
   voicevox-engine:
-    image: voicevox/voicevox_engine:cpu-ubuntu20.04-latest
+    # OS の版を固定したタグ（cpu-ubuntu20.04-latest など）は、その版が外れると更新が止まって古くなるので使わない
+    image: voicevox/voicevox_engine:cpu-latest
     ports:
       # 自分の端末からだけ受け付ける（同じ LAN の他の端末からは届かない）
       - "127.0.0.1:50021:50021"
