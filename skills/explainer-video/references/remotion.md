@@ -17,7 +17,7 @@ npm ci               # 調べた package-lock.json のとおりに入れる
 
 - `scan-deps.mjs` が 0 で終わるまで `npm ci` しない。見つかったときの直し方と止め方は `dependency-scan.md`。
 - 入れたら `node_modules/remotion/LICENSE.md` を読み、規約が変わっていないか確かめる。
-- 新しい npm は install scripts を止めた警告を出すことがあるが、4.0.539 ではそのままで動く。
+- 新しい npm は install scripts を止めた警告を出すことがあるが、4.0.543 ではそのままで動く。
 - 初回の静止画・書き出しで、Remotion がヘッドレスの Chrome（約 170MB）を取得する。
 
 ## ファイルの役割

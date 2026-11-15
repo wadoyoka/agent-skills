@@ -1,7 +1,7 @@
-# 依存の脆弱性を確かめる（trivy）
+# 依存の脆弱性を確かめる（trivy・npm audit）
 
 npm の依存（Remotion・React・playwright-core と、それらが引き込む数百のパッケージ）と、VOICEVOX エンジンの
-Docker イメージに既知の脆弱性がないかを、**入れる前・立ち上げる前**に trivy で確かめる。
+Docker イメージに既知の脆弱性がないかを、**入れる前・立ち上げる前**に trivy で確かめる（npm は npm audit でも重ねて確かめる）。
 `scripts/scan-deps.mjs` がそれを行う（`movie/` に写して使う）。
 
 ## いつ・何を調べるか
@@ -10,12 +10,16 @@ Docker イメージに既知の脆弱性がないかを、**入れる前・立�
 |---|---|---|
 | 作業を始める前 | `trivy --version` | 入っていなければ止める |
 | 手順 4: VOICEVOX を Docker で立ち上げる前 | `node movie/scan-deps.mjs --image <イメージ名>` | CRITICAL が 1 件でもある |
-| 手順 8: テンプレートを写したあと、`npm ci` の前 | `cd movie && node scan-deps.mjs` | HIGH / CRITICAL が 1 件でもある |
+| 手順 8: テンプレートを写したあと、`npm ci` の前 | `cd movie && node scan-deps.mjs` | HIGH / CRITICAL が 1 件でもある（trivy と npm audit の合計） |
 
-- イメージ名は `movie/voicevox/docker-compose.yml` の `image`（既定 `voicevox/voicevox_engine:cpu-ubuntu20.04-latest`）。
+- イメージ名は `movie/voicevox/docker-compose.yml` の `image`（既定 `voicevox/voicevox_engine:cpu-latest`）。
   エンジンがすでに Docker で動いていてつながる場合も、`docker ps --format '{{.Image}}'` に出るイメージを調べる。
+- OS の版を名前に含むタグ（`cpu-ubuntu20.04-latest` など）は、公式がその OS の版を外すと更新が止まり、古いまま残る
+  （2026-11 に使っていた `cpu-ubuntu20.04-latest` は 2025-05 に作られたもので、ベースの OS はサポート終了、CRITICAL が 2 件あった）。既定は OS の版を固定しない `cpu-latest` にしてある。
 - npm のほうは、パッケージを入れずに（install scripts も動かさずに）`package-lock.json` だけを作って調べる。
   そのあと `npm ci` で、調べた lockfile のとおりに入れる。`npm install` は使わない（調べていない版が入りうる）。
+- npm のほうは、同じ lockfile を `npm audit --package-lock-only` でも調べて結果を合わせる。trivy のデータベースには GitHub の勧告（GHSA）が
+  まだ入っていないことがあるため（例: Remotion 4.0.539 が引き込む `zod@4.5.4` の GHSA-mrhx-c7xc-m3w5 は、trivy では 0 件、npm audit では HIGH）。
 - 初回は trivy が脆弱性データベースを取りに行くので、少し時間がかかる。
 
 終了コードで次を決める。
@@ -25,7 +29,7 @@ Docker イメージに既知の脆弱性がないかを、**入れる前・立�
 | 0 | 見つからなかった | 進む |
 | 1 | 見つかった | 下の「npm で見つかったら」「イメージで見つかったら」 |
 | 2 | trivy が無い | 下の「trivy が無いとき」 |
-| 3 | 調べられなかった（ネットワーク・`package.json` が無い など） | 表示された理由を直して調べ直す。調べられないまま進めない |
+| 3 | 調べられなかった（ネットワーク・`package.json` が無い・npm audit が失敗 など） | 表示された理由を直して調べ直す。調べられないまま進めない |
 
 ## trivy が無いとき
 
@@ -36,7 +40,8 @@ mise でリポジトリごとに入れていると、ほかのディレクトリ
 
 ## npm で見つかったら: 直せるものは直して続ける
 
-`scan-deps.mjs` は 1 件ずつ「深刻度・パッケージ@入っている版・脆弱性 ID・[直接 / 間接]・直る版」を出す。
+`scan-deps.mjs` は 1 件ずつ「深刻度・パッケージ@入っている版・脆弱性 ID・[直接 / 間接]（見つけた道具）・直る版」を出す。
+npm audit が見つけたものは「直る版」の代わりに「影響する版」（例: `<4.6.6`）が出る。それに入らない最小の版（`4.6.6`）を直る版として扱う。
 `[直接]` は `package.json` に書いてあるその版、`[間接]` はほかのパッケージが引き込んだもの（同じ名前の入れ子の古い版を含む）。
 
 **1. 上げる版を決める。** 直る版が複数並ぶとき（`1.9.0, 0.1.10, 8.0.0` など）は、入っている版と同じ系列のものを選ぶ
@@ -91,7 +96,13 @@ VOICEVOX のイメージは公式が作っているもので、こちらでは�
   スキルの `docker-compose.yml` で立ち上げる（立ち上げた）なら、エンジンは `127.0.0.1:50021` でしか待ち受けず、
   同じ端末の中からしか届かないことも伝える。ほかの方法で動いているなら、`docker ps --format '{{.Ports}}'` で確かめてから書く。
 - 選択肢（これから立ち上げる場合）: そのまま立ち上げる / 別のイメージに替える（`docker-compose.yml` の `image` を替えて調べ直す）/ 立ち上げない。
-- 選択肢（すでに動いている場合）: そのまま使う / 止めて別のイメージに替える / 使わない。動いているコンテナは、言われるまで止めない。
+- 選択肢（すでに動いている場合）: そのまま使う / 新しいイメージを別に立てる（下）/ 使わない。動いているコンテナは、言われるまで止めない。
+- 動いているのが OS の版を固定した古いタグなら、まず「新しいイメージ（`cpu-latest`）に替える」を勧める。
+  `docker pull voicevox/voicevox_engine:cpu-latest` → `scan-deps.mjs --image` で調べる → 0 件なら、動いているものとぶつからない
+  `127.0.0.1` の別のポート（例: `127.0.0.1:50121:50021`）で立て、`narration.json` の `voicevox.url` をそのポートにする。
+- 新しいイメージでも直っていないときの最後の手: そのイメージを `FROM` にして、見つかった Python パッケージだけを直る版に上げた
+  派生イメージを作る（エンジンは `/opt/python` の Python と `/home/user/.local` のパッケージで動く。上げたあと `pip check` を通し、
+  `scan-deps.mjs --image` で調べ直し、読み上げを 1 文試してから使う）。利用者に選んでもらってから行う。
 - サブエージェントのときは、立ち上げず（動いていれば使わず）、そこまでの作業を `movie/` に残したまま、その場で確認事項として返す。
 - 同じ作業の中で「そのまま立ち上げる / 使う」と言われたら、同じイメージを同じ結果で聞き直さない。
 
